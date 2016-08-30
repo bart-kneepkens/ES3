@@ -1,4 +1,9 @@
 #define baudRate 9600
+#define DDR_BUTTONS &DDRB
+#define PORT_BUTTONS &PORTB
+#define PIN_BUTTONS &PINB
+#define DDR_LAMPS &DDRD
+#define PORT_LAMPS &PORTD
 
 // Sets a bit in a register.
 void setBit(volatile unsigned char* reg, int bitNr, bool value)
@@ -31,29 +36,29 @@ void setup()
   Serial.begin(baudRate);
 
   // Set the buttons to outputs and their signals to high.
-  setToOutputAndSetHigh(&DDRB, &PORTB, PINB2);
-  setToOutputAndSetHigh(&DDRB, &PORTB, PINB3);
-  setToOutputAndSetHigh(&DDRB, &PORTB, PINB4);
+  setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB2);
+  setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB3);
+  setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB4);
 
   // Makes the buzzer and lamps outputs, because this
   // somehow improves the signal strength.
-  setBit(&DDRD, PORTD3, true); // Buzzer
-  setBit(&DDRD, PORTD5, true); // LED on pin 5
-  setBit(&DDRD, PORTD6, true); // LED on pin 6
+  setBit(DDR_LAMPS, PORTD3, true); // Buzzer
+  setBit(DDR_LAMPS, PORTD5, true); // LED on pin 5
+  setBit(DDR_LAMPS, PORTD6, true); // LED on pin 6
 }
 
 void loop()
 {
   // If button D11 is not pressed, do stuff.
-  if (!bitIsTrue(&PINB, PINB3))
+  if (!bitIsTrue(PIN_BUTTONS, PINB3))
   {
     // Set lamp D5.
-    bool buttonD10IsPressed = bitIsTrue(&PINB, PINB2);
-    setBit(&PORTD, PORTD5, buttonD10IsPressed);
+    bool buttonD10IsPressed = bitIsTrue(PIN_BUTTONS, PINB2);
+    setBit(PORT_LAMPS, PORTD5, buttonD10IsPressed);
 
     // Set lamp D6.
-    bool buttonD12IsPressed = bitIsTrue(&PINB, PINB4);
-    setBit(&PORTD, PORTD6, buttonD12IsPressed);
+    bool buttonD12IsPressed = bitIsTrue(PIN_BUTTONS, PINB4);
+    setBit(PORT_LAMPS, PORTD6, buttonD12IsPressed);
 
     // If button D12 is pressed, print hello world.
     if (buttonD12IsPressed)
@@ -63,16 +68,16 @@ void loop()
       // If button D10 is also pressed, make buzz sound.
       if (buttonD10IsPressed)
       {
-        setBit(&PORTD, PORTD3, true);
+        setBit(PORT_LAMPS, PORTD3, true);
         delay(5);
-        setBit(&PORTD, PORTD3, false);
+        setBit(PORT_LAMPS, PORTD3, false);
       }
     }
   }
   else
   {
     // Turn off lamps.
-    setBit(&PORTD, PORTD5, false);
-    setBit(&PORTD, PORTD6, false);
+    setBit(PORT_LAMPS, PORTD5, false);
+    setBit(PORT_LAMPS, PORTD6, false);
   }
 }
