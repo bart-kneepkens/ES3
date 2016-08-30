@@ -7,6 +7,11 @@ void setup() {
 
  DDRB |= _BV(PINB4); // Make pin 12 an output
  PORTB |= _BV(PINB4); // Set HIGH for pin 12
+
+ DDRB |= _BV(PINB3); // Make pin 12 an output
+ PORTB |= _BV(PINB3); // Set HIGH for pin 12
+
+ DDRD |= _BV(PINB3); // Buzzer
   
 
 
@@ -15,6 +20,10 @@ void setup() {
 }
  
 void loop(){
+  int stateOfButton11 = bitRead(PINB, PINB3); // Read the current value
+
+  if(stateOfButton11 != LOW){
+  
  int stateOfButton10 = bitRead(PINB, PINB2); // Read the current value
 
  if (stateOfButton10 == LOW)
@@ -38,9 +47,18 @@ void loop(){
   PORTD &= ~_BV(PORTD6); // Apply mask to set the 5th bit to 0
  }
 
+int stateOfButton11 = bitRead(PINB, PINB3); // Read the current value
+
+
+
  if(stateOfButton10 == LOW && stateOfButton12 == LOW){
-  Serial.println("Both!!");
-  tone(3, 100, 10);
+  
+  PORTD |= _BV(PORTD3);
+  delay(5);
+  PORTD &= ~_BV(PORTD3);
+  delay(5);
+  
  }
+  }
  
 }
