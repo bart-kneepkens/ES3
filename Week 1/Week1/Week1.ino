@@ -16,6 +16,6 @@ void loop(){
  }
  else
  {
-  PORTD &= B11011111; // Apply mask to set the 5th bit to 0
+  PORTD &= ~_BV(PORTD5); // Apply mask to set the 5th bit to 0
  }
 }
