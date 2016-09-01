@@ -36,6 +36,7 @@ void setup()
   Serial.begin(baudRate);
 
   // Set the buttons to outputs and their signals to high.
+  // This is needed because of the Danger shield we use, which does not have a pull-up resistor.
   setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB2);
   setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB3);
   setToOutputAndSetHigh(DDR_BUTTONS, PORT_BUTTONS, PORTB4);
@@ -76,6 +77,7 @@ void loop()
   }
   else
   {
+    // It could be that one of the buttons (D10 or D12) was pressed prior, but now button D11 has been pressed.
     // Turn off lamps.
     setBit(PORT_LAMPS, PORTD5, false);
     setBit(PORT_LAMPS, PORTD6, false);
