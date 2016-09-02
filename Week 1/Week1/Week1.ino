@@ -28,7 +28,7 @@ void setToOutputAndSetHigh(volatile unsigned char* ddr, volatile unsigned char* 
 // Returns true if the bit in the register is false.
 boolean bitIsTrue(volatile unsigned char* reg, int bitNr)
 {
-  return bitRead(*reg, bitNr) != HIGH;
+  return ((*reg >> bitNr) & 0b1) == 0;
 }
 
 void setup()
@@ -50,35 +50,46 @@ void setup()
 
 void loop()
 {
-  // If button D11 is not pressed, do stuff.
-  if (!bitIsTrue(PIN_BUTTONS, PINB3))
-  {
-    // Set lamp D5.
-    bool buttonD10IsPressed = bitIsTrue(PIN_BUTTONS, PINB2);
-    setBit(PORT_LAMPS, PORTD5, buttonD10IsPressed);
+  // Check button presses.
+  bool buttonD10IsPressed = bitIsTrue(PIN_BUTTONS, PINB2);
+  bool buttonD11IsPressed = bitIsTrue(PIN_BUTTONS, PINB3);
+  bool buttonD12IsPressed = bitIsTrue(PIN_BUTTONS, PINB4);
 
-    // Set lamp D6.
-    bool buttonD12IsPressed = bitIsTrue(PIN_BUTTONS, PINB4);
-    setBit(PORT_LAMPS, PORTD6, buttonD12IsPressed);
-
-    // If button D12 is pressed, print hello world.
-    if (buttonD12IsPressed)
-    {
-      Serial.println("Hello, world!");
-
-      // If button D10 is also pressed, make buzz sound.
-      if (buttonD10IsPressed)
-      {
-        setBit(PORT_LAMPS, PORTD3, true);
-        delay(5);
-        setBit(PORT_LAMPS, PORTD3, false);
-      }
-    }
-  }
-  else
+  // According to button presses, take action.
+  if (buttonD11IsPressed)
   {
     // It could be that one of the buttons (D10 or D12) was pressed prior, but now button D11 has been pressed.
     // Turn off lamps.
+    setBit(PORT_LAMPS, PORTD5, false);
+    setBit(PORT_LAMPS, PORTD6, false);
+  }
+  else if (buttonD10IsPressed && !buttonD12IsPressed)
+  {
+    // Set lamps.
+    setBit(PORT_LAMPS, PORTD5, true);
+    setBit(PORT_LAMPS, PORTD6, false);
+  }
+  else if (!buttonD10IsPressed && buttonD12IsPressed)
+  {
+    // Set lamps.
+    setBit(PORT_LAMPS, PORTD5, false);
+    setBit(PORT_LAMPS, PORTD6, true);
+    Serial.println("Hello, world!");  // Print 'Hello, world!'.
+  }
+  else if (buttonD10IsPressed && buttonD12IsPressed)
+  {
+    // Set lamps.
+    setBit(PORT_LAMPS, PORTD5, false);
+    setBit(PORT_LAMPS, PORTD6, false);
+
+    // Make buzz sound.
+    setBit(PORT_LAMPS, PORTD3, true);
+    delay(5);
+    setBit(PORT_LAMPS, PORTD3, false);
+  }
+  else
+  {
+    // If nothing is pressed, disable lamps.
     setBit(PORT_LAMPS, PORTD5, false);
     setBit(PORT_LAMPS, PORTD6, false);
   }
