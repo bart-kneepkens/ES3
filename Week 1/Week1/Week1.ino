@@ -26,7 +26,7 @@ void setToOutputAndSetHigh(volatile unsigned char* ddr, volatile unsigned char* 
 }
 
 // Returns true if the bit in the register is false.
-boolean bitIsTrue(volatile unsigned char* reg, int bitNr)
+boolean bitIsFalse(volatile unsigned char* reg, int bitNr)
 {
   return ((*reg >> bitNr) & 0b1) == 0;
 }
@@ -51,9 +51,9 @@ void setup()
 void loop()
 {
   // Check button presses.
-  bool buttonD10IsPressed = bitIsTrue(PIN_BUTTONS, PINB2);
-  bool buttonD11IsPressed = bitIsTrue(PIN_BUTTONS, PINB3);
-  bool buttonD12IsPressed = bitIsTrue(PIN_BUTTONS, PINB4);
+  bool buttonD10IsPressed = bitIsFalse(PIN_BUTTONS, PINB2);
+  bool buttonD11IsPressed = bitIsFalse(PIN_BUTTONS, PINB3);
+  bool buttonD12IsPressed = bitIsFalse(PIN_BUTTONS, PINB4);
 
   // According to button presses, take action.
   if (buttonD11IsPressed)
