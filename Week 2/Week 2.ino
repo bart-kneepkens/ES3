@@ -2,6 +2,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#define SLIDER 2
 #define BUTTON11 11
 #define LEDPIN5 5
 #define LEDPIN6 6
@@ -18,8 +19,10 @@ ISR(TIMER1_COMPA_vect) {
 
 ISR (PCINT0_vect)
 {
-    digitalWrite(LEDPIN6, !digitalRead(LEDPIN6));
-    delay(100);
+    if (digitalRead(BUTTON11) == LOW) {
+      digitalWrite(LEDPIN6, !digitalRead(LEDPIN6));
+      Serial.println("pished");
+    }
 }
 
 
@@ -56,7 +59,7 @@ void setup()
 void loop()
 {
     cli(); // disable global interrupts
-    int currentSliderValue = analogRead(2);
+    int currentSliderValue = analogRead(SLIDER);
 
     // If significant diff in slider value, update timer maximum count.
     if (abs(currentSliderValue - lastSliderValue) >= minSliderDiff) {
