@@ -1,4 +1,3 @@
-// avr-libc library includes
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
@@ -16,6 +15,7 @@ bool slowMode = false;
 int slowModeCounter = 0;
 
 ISR(TIMER1_COMPA_vect) {
+  digitalWrite(2, HIGH);
     if (slowMode) {
       if (slowModeCounter >= 9) {
         digitalWrite(LEDPIN5, !digitalRead(LEDPIN5));
@@ -26,8 +26,9 @@ ISR(TIMER1_COMPA_vect) {
       }
       return;
     }
-    
+    //Serial.println("Deze println maakt de ISR een stuk trager.");
     digitalWrite(LEDPIN5, !digitalRead(LEDPIN5));
+    digitalWrite(2, LOW);
 }
 
 ISR (PCINT0_vect)
@@ -46,6 +47,8 @@ void setup()
     digitalWrite(BUTTON11, HIGH);
     pinMode(LEDPIN5, OUTPUT);
     pinMode(LEDPIN6, OUTPUT);
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);
  
     // initialize Timer1
     cli();          // disable global interrupts
