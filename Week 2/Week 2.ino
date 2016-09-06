@@ -9,11 +9,24 @@
 #define MINCOUNT 1562
 #define MAXCOUNT 15624
 #define SLIDERMAX 1023
+#define SLIDERDIFF 50
 
 int lastSliderValue; // last value from the slider
-const int minSliderDiff = 50; // minimum difference for slider value
+bool slowMode = false;
+int slowModeCounter = 0;
 
 ISR(TIMER1_COMPA_vect) {
+    if (slowMode) {
+      if (slowModeCounter >= 9) {
+        digitalWrite(LEDPIN5, !digitalRead(LEDPIN5));
+        slowModeCounter = 0;
+      }
+      else {
+        slowModeCounter++;
+      }
+      return;
+    }
+    
     digitalWrite(LEDPIN5, !digitalRead(LEDPIN5));
 }
 
@@ -21,7 +34,7 @@ ISR (PCINT0_vect)
 {
     if (digitalRead(BUTTON11) == LOW) {
       digitalWrite(LEDPIN6, !digitalRead(LEDPIN6));
-      Serial.println("pished");
+      slowMode = !slowMode;
     }
 }
 
@@ -62,8 +75,13 @@ void loop()
     int currentSliderValue = analogRead(SLIDER);
 
     // If significant diff in slider value, update timer maximum count.
-    if (abs(currentSliderValue - lastSliderValue) >= minSliderDiff) {
-      int newMaxCount = map(currentSliderValue, 0, SLIDERMAX, MINCOUNT, MAXCOUNT);   
+    if (abs(currentSliderValue - lastSliderValue) >= SLIDERDIFF) {
+      int newMaxCount = map(currentSliderValue, 0, SLIDERMAX, MINCOUNT, MAXCOUNT);
+
+      if (digitalRead(LEDPIN6) == HIGH) {
+        newMaxCount *= 10;
+      }
+      
       OCR1A = newMaxCount;
 
       // If the timer value is higher than the new maximum count, then reset the timer to 0.
