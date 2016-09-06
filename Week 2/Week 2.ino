@@ -34,7 +34,7 @@ ISR (PCINT0_vect)
 {
     if (digitalRead(BUTTON11) == LOW) {
       digitalWrite(LEDPIN6, !digitalRead(LEDPIN6));
-      slowMode = !slowMode;
+      slowMode = digitalRead(LEDPIN6);
     }
 }
 
@@ -77,11 +77,6 @@ void loop()
     // If significant diff in slider value, update timer maximum count.
     if (abs(currentSliderValue - lastSliderValue) >= SLIDERDIFF) {
       int newMaxCount = map(currentSliderValue, 0, SLIDERMAX, MINCOUNT, MAXCOUNT);
-
-      if (digitalRead(LEDPIN6) == HIGH) {
-        newMaxCount *= 10;
-      }
-      
       OCR1A = newMaxCount;
 
       // If the timer value is higher than the new maximum count, then reset the timer to 0.
