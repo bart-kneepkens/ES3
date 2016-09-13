@@ -1,7 +1,7 @@
 #define LEDPIN 13;
 #define FORMULTIPLIER 445;
 
-int prescaler = 0;
+#include <avr/power.h>
 
 void setBit(volatile unsigned char* reg, int bitNr, bool value)
 {
@@ -15,6 +15,18 @@ void setBit(volatile unsigned char* reg, int bitNr, bool value)
   } 
 }
 
+// NOTE : Unused At the moment.
+void setPrescaler(int newValue){
+  cli();
+  
+  CLKPR = 0x40;             //Tell the chip we want to change system clock
+
+  CLKPR = B0001000;         //Set the prescaler
+
+  sei();
+}
+
+
 void my_delay(volatile long ms) {
   long maximum = ms * FORMULTIPLIER
   
@@ -26,37 +38,34 @@ void my_delay(volatile long ms) {
 }
 
 void setup() {
-  setBit(&DDRB, 5, true); // Set led pin 13 as an output.
+  setBit(&DDRB, 5, true);   // Set led pin 13 as an output.
+  
+  ADCSRA = 0;               // Turn off ADC.
 
-  // Turn off ADC
-  ADCSRA = 0;
-
-  // Turn off timers and Peripherals
-  PRR = 0;
+  PRR = 0;                  // Turn off timers and Peripherals.
   
   Serial.begin(9600);
 }
 
-void setClockPrescaler(int newValue){
-  Serial.println("Setting prescaler to :");
-  Serial.println(newValue);
-
-  //CLKPR |= 0;
-  CLKPR = (1 << CLKPCE); // enable a change to CLKPR
-
-  CLKPR = 1;
-  //CLKPR |= newValue;//((byte) (log (newValue) / log (2)));
-
-  Serial.println(((int) (log (newValue) / log (2))));
-  Serial.println(CLKPR, BIN);
-}
-
 void loop() {
-  //setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
-  setClockPrescaler(4);
+  clock_prescale_set(clock_div_1);
+  setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
+  
   my_delay(2000);
-  //setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
-  setClockPrescaler(8);
+
+  clock_prescale_set(clock_div_4);
+  setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
+  
+  my_delay(2000);
+
+  clock_prescale_set(clock_div_16);
+  setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
+  
+  my_delay(2000);
+  
+  clock_prescale_set(clock_div_256);
+  setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
+  
   my_delay(2000);
 }
 
