@@ -1,5 +1,6 @@
 #define LEDPIN 13;
 #define FORMULTIPLIER 445;
+#include <avr/wdt.h>
 
 void setBit(volatile unsigned char* reg, int bitNr, bool value)
 {
@@ -32,6 +33,8 @@ ISR(WDT_vect){
 }
 
 void setup() {
+  Serial.begin(9600);
+  
   setBit(&DDRB, 5, true);   // Set led pin 13 as an output.
   
   ADCSRA = 0;               // Turn off ADC.
@@ -41,12 +44,12 @@ void setup() {
 
   /** Set the Watchdog interrupt and watchdog prescaler at 4sec **/
   cli();
-
-  WDTCSR = B0111000;
+  //wdt_reset();
   
+  WDTCSR = (1<<4)|(1<<3); // B00011000    // Set up WDT interrupt.
+  
+  WDTCSR = (1<<6)|(1<<3)|(1<<5);  // B01101000; // Start watchdog timer with 4sec prescaler.
   sei();
-
-  Serial.begin(9600);
 }
 
 void loop() {
