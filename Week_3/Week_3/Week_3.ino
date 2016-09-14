@@ -2,6 +2,7 @@
 #define FORMULTIPLIER 445;
 
 #include <avr/power.h>
+#include <avr/sleep.h>
 
 void setBit(volatile unsigned char* reg, int bitNr, bool value)
 {
@@ -17,13 +18,8 @@ void setBit(volatile unsigned char* reg, int bitNr, bool value)
 
 // NOTE : Unused At the moment.
 void setPrescaler(int newValue){
-  cli();
-  
-  CLKPR = 0x40;             //Tell the chip we want to change system clock
-
-  CLKPR = B0001000;         //Set the prescaler
-
-  sei();
+  CLKPR = 0x80;             //Tell the chip we want to change system clock
+  CLKPR = newValue;         //Set the prescaler
 }
 
 
@@ -48,22 +44,23 @@ void setup() {
 }
 
 void loop() {
-  clock_prescale_set(clock_div_1);
+  
+  setPrescaler(1);
   setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
   
   my_delay(2000);
 
-  clock_prescale_set(clock_div_4);
+  setPrescaler(4);
   setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
   
   my_delay(2000);
 
-  clock_prescale_set(clock_div_16);
+  setPrescaler(16);
   setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
   
   my_delay(2000);
   
-  clock_prescale_set(clock_div_256);
+  setPrescaler(256);
   setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
   
   my_delay(2000);
