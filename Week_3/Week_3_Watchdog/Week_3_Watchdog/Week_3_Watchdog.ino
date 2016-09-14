@@ -29,13 +29,14 @@ void my_delay(volatile long ms) {
   for (volatile long i = 0; i < maximum; i++) {}
 }
 
+
 ISR(WDT_vect){
-  Serial.println("WDT ISR");
-  //SMCR |= (0<<0);            // Turn off the power-down mode.
-}
+  Serial.println("ISR");
+  } // The cpu_sleep is disabled by default when ISR is called.
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Setup");
   setBit(&DDRB, 5, true);   // Set led pin 13 as an output.
   
   ADCSRA = 0;               // Turn off ADC.
@@ -45,16 +46,17 @@ void setup() {
   /** Set the Watchdog interrupt and watchdog prescaler at 4sec **/
   cli();
   
-  WDTCSR = (1<<4)|(1<<3);         //(B00011000)    // Set up WDT interrupt.
+  WDTCSR = (1<<4)|(1<<3);         //(B00011000) Set up WDT interrupt.
   
-  WDTCSR = (1<<6)|(1<<3)|(1<<5);  //(B01101000) // Start watchdog timer with 4 second prescaler.
-  
+  WDTCSR = (1<<6)|(1<<3)|(1<<5);  //(B01101000) Start watchdog timer with 4 second prescaler.
+ 
   sei();
 }
 
+// NOTE : This doesn't work :(
 void feedDog(){
-  MCUSR &= (0<<3);
-  WDTCSR &= (0<<3);
+  MCUSR &= ~(0<<3);
+  WDTCSR &= ~(0<<3);
 }
 
 void loop() {
