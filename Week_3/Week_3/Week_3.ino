@@ -15,9 +15,10 @@ void setBit(volatile unsigned char* reg, int bitNr, bool value)
   } 
 }
 
+// NOTE: Call with values 1/8
 void setPrescaler(int newValue){
-//  CLKPR = 0x80;            // Enable the change bit.
-//  CLKPR |= newValue;        // Set the prescaler.
+    CLKPR = 0x80;            // Enable the change bit.
+    CLKPR = newValue;        // Set the prescaler.
 }
 
 
@@ -45,22 +46,11 @@ void blink(int delay){
 }
 
 void loop() {
-   clock_prescale_set(clock_div_256);
+
+
    blink(2000);
-//   clock_prescale_set(clock_div_2);
-//   blink();
-//   clock_prescale_set(clock_div_4);
-//   blink();
-//   clock_prescale_set(clock_div_8);
-//   blink();
-//   clock_prescale_set(clock_div_16);
-//   blink();
-//   clock_prescale_set(clock_div_32);
-//   blink();
-//   clock_prescale_set(clock_div_64);
-//   blink();
-//   clock_prescale_set(clock_div_128);
-//   blink();
-//   clock_prescale_set(clock_div_256);
+   blink(2000);
+
+   setPrescaler(8);
 }
 
