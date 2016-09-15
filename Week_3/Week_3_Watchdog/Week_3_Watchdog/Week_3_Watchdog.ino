@@ -12,6 +12,8 @@ void setBit(volatile unsigned char* reg, int bitNr, bool value)
   else
   {
     *reg &= ~_BV(bitNr);
+
+    
   } 
 }
 
@@ -62,7 +64,7 @@ void feedDog(){
 void loop() {
   
   //feedDog();
-  wdt_reset();
+  //wdt_reset();
   
   /*  Blink 2 times.  */
   setBit(&PORTB, 5, true);  // Set LED pin 13 to HIGH.
