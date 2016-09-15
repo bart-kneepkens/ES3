@@ -12,14 +12,7 @@ void setBit(volatile unsigned char* reg, int bitNr, bool value)
   else
   {
     *reg &= ~_BV(bitNr);
-
-    
   } 
-}
-
-void setPrescaler(int newValue){
-  CLKPR = 0x80;            // Enable the change bit.
-  CLKPR = newValue;        // Set the prescaler.
 }
 
 
@@ -55,26 +48,17 @@ void setup() {
   sei();
 }
 
-// NOTE : This doesn't work :(
-void feedDog(){
-  MCUSR &= ~(0<<3);
-  WDTCSR &= ~(0<<3);
+void blink(int delay){
+  setBit(&PORTB, 5, true); // Set led pin 13 to HIGH.
+  my_delay(delay);
+  setBit(&PORTB, 5, false);  // Set led pin 13 to LOW.
+  my_delay(delay);
 }
 
 void loop() {
-  
-  //feedDog();
-  //wdt_reset();
-  
   /*  Blink 2 times.  */
-  setBit(&PORTB, 5, true);  // Set LED pin 13 to HIGH.
-  my_delay(500);
-  setBit(&PORTB, 5, false); // Set LED pin 13 to LOW.
-  my_delay(500);
-  setBit(&PORTB, 5, true);  // Set LED pin 13 to HIGH.
-  my_delay(500);
-  setBit(&PORTB, 5, false); // Set LED pin 13 to LOW.
-  my_delay(500);
+  blink(500);
+  blink(500);
 
   /*  Power down mode.  */
   SMCR |= (1<<2)|(1<<0);
