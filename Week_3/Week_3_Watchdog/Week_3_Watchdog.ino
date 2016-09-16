@@ -13,6 +13,13 @@ void my_delay(volatile long ms) {
   for (volatile long i = 0; i < maximum; i++) {}  // Empty for-loop. (Busy waiting).
 }
 
+void blink(int delay) {
+  PORTB |= (1<<PORTB5);       // Set led pin 13 to HIGH.
+  my_delay(delay);
+  PORTB &= ~(1<<PORTB5);      // Set led pin 13 to LOW.
+  my_delay(delay);
+}
+
 ISR(WDT_vect){}             // The cpu_sleep is disabled by default when ISR is called.
 
 void setup() {
@@ -24,13 +31,6 @@ void setup() {
   WDTCSR = (1<<4)|(1<<3);         //(B00011000) Set up WDT interrupt.
   WDTCSR = (1<<6)|(1<<3)|(1<<5);  //(B01101000) Start watchdog timer with 4 second prescaler.
   sei();
-}
-
-void blink(int delay){
-  PORTB |= (1<<PORTB5);       // Set led pin 13 to HIGH.
-  my_delay(delay);
-  PORTB &= ~(1<<PORTB5);      // Set led pin 13 to LOW.
-  my_delay(delay);
 }
 
 void loop() {
