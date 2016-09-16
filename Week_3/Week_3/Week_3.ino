@@ -12,17 +12,17 @@ void my_delay(volatile long ms) {
   for (volatile long i = 0; i < maximum; i++) {}  // Empty for-loop. (Busy waiting).
 }
 
-void setup() {
-  DDRB |= (1<<DDB5);        // Set led pin 13 as an output.
-  ADCSRA = 0;               // Turn off ADC.
-  PRR = 0;                  // Turn off timers and Peripherals.
-}
-
-void blink(int delay){
+void blink(int delay) {
   PORTB |= (1<<PORTB5);       // Set led pin 13 to HIGH.
   my_delay(delay);
   PORTB &= ~(1<<PORTB5);      // Set led pin 13 to LOW.
   my_delay(delay);
+}
+
+void setup() {
+  DDRB |= (1<<DDB5);        // Set led pin 13 as an output.
+  ADCSRA = 0;               // Turn off ADC.
+  PRR = 0;                  // Turn off timers and Peripherals.
 }
 
 void loop() {
