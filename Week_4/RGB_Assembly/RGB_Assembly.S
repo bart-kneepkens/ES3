@@ -1,17 +1,17 @@
-#include <avr/io.h>
+#include    <avr/io.h>
 .global main
-delay1s:    ldi     r18,                  255         // Subroutine that delays for 1 second
+main:       ldi     r16,                  0b111000    // define constant in r16
+            out     _SFR_IO_ADDR(DDRB),   r16         // Set pins 11 through 13 to output using constant
+            ldi     r16,                  0b100000
+main_loop:  out     _SFR_IO_ADDR(PORTB),  r16
+            ldi     r18,                  255
             ldi     r19,                  211
             ldi     r20,                  48
-delay_loop: subi    r18,                  1           // Loop for the delay subroutine
+delay_loop: subi    r18,                  1           // Delay loop start
             sbci    r19,                  0
             sbci    r20,                  0
-            brcc    delay_loop
-            ret
-main:       ldi     r16,                  0b111000    // Main starting point of program; define constant in r16
-            out     _SFR_IO_ADDR(DDRB),   r16         // Set pins 11 through 13 to output using constant
-infinity:   cbi     _SFR_IO_ADDR(PORTB),  5           // Infinite loop in main
-            rcall   delay1s
-            sbi     _SFR_IO_ADDR(PORTB),  5
-            rcall   delay1s
-            rjmp    infinity
+            brcc    delay_loop                        // Delay loop end
+            lsr     r16
+            sbic    _SFR_IO_ADDR(PORTB),  3
+            ldi     r16,                  0b100000
+            rjmp    main_loop
