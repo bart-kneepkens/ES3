@@ -1,4 +1,3 @@
- 
 #define redPin 11
 #define greenPin 12
 #define bluePin 13
