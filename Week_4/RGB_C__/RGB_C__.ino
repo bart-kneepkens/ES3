@@ -1,7 +1,7 @@
  
-int redPin = 11;
-int greenPin = 12;
-int bluePin = 13;
+#define redPin 11
+#define greenPin 12
+#define bluePin 13
  
 void setup()
 {
