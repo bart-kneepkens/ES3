@@ -1,11 +1,17 @@
 volatile static char initchar = 'a';    // Initialized global var, should end up in data
 volatile static char uninitchar = 0;    // Uninitialized global var, should end up in bss
 
+// Empty functions, used solely for discovering their addresses.
+void functionA() { functionB(); }
+void functionB() { functionC(); }
+void functionC() { functionD(); }
+void functionD() { int x = 1; }
+
 void setup()
 {
   Serial.begin(9600);
 
-  // Local variable and dynamically allocated object for checking down the line.
+  // Create local variable and dynamically allocated object for checking down the line.
   volatile char tmp2 = 'a';
   volatile char* tmp = new char('a');
   
@@ -29,7 +35,8 @@ void setup()
   Serial.print("+----------------+  heap_end    = ");  Serial.println((int) heap_end, HEX);
   Serial.print("+----------------+  stack_start = ");  Serial.println((int) stack_start, HEX);
   Serial.print("+----------------+  stack_end   = ");  Serial.println(RAMEND, HEX);
-
+  Serial.println("+----------------+");
+  
   // Check whether initchar is in data.
   if (&initchar >= &__data_start && &initchar <= &__data_end)
     Serial.println("+----------------+  VERIFIED: initialized global var is in data");
@@ -53,8 +60,16 @@ void setup()
     Serial.println("+----------------+  VERIFIED: local variable is in stack");
   else
     Serial.println("+----------------+  ERROR: local variable is not in stack");
+  Serial.println("+----------------+");
+  
+  // Print memory locations in flash of the functions.
+  Serial.print("+----------------+  address of functionA() = "); Serial.println((int) &functionA, HEX);
+  Serial.print("+----------------+  address of functionB() = "); Serial.println((int) &functionB, HEX);
+  Serial.print("+----------------+  address of functionC() = "); Serial.println((int) &functionC, HEX);
+  Serial.print("+----------------+  address of functionD() = "); Serial.println((int) &functionD, HEX);
 
-  delete tmp; // Look at me, I'm being totally responsible with my memory management!
+  functionA();  // Call functionA for testing. 
+  delete tmp;   // Look at me, I'm being totally responsible with my memory management!
 }
 
-void loop() { /* Empty. */ }
+void loop() { }
