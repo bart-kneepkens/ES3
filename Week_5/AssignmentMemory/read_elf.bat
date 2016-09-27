@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Arduino\hardware\tools\avr\bin\avr-readelf" -a -W %1.ino.elf > %1.elf.txt
