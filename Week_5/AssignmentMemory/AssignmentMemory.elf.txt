@@ -10,7 +10,7 @@ ELF Header:
   Version:                           0x1
   Entry point address:               0x0
   Start of program headers:          52 (bytes into file)
-  Start of section headers:          10672 (bytes into file)
+  Start of section headers:          10744 (bytes into file)
   Flags:                             0x85, avr:5, link-relax
   Size of this header:               52 (bytes)
   Size of program headers:           32 (bytes)
@@ -22,18 +22,18 @@ ELF Header:
 Section Headers:
   [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
   [ 0]                   NULL            00000000 000000 000000 00      0   0  0
-  [ 1] .data             PROGBITS        00800100 0016b6 00046e 00  WA  0   0  1
-  [ 2] .text             PROGBITS        00000000 000094 001622 00  AX  0   0  2
-  [ 3] .bss              NOBITS          0080056e 001b24 0000ab 00  WA  0   0  1
-  [ 4] .comment          PROGBITS        00000000 001b24 000011 01  MS  0   0  1
-  [ 5] .note.gnu.avr.deviceinfo NOTE            00000000 001b38 000040 00      0   0  4
-  [ 6] .debug_info       PROGBITS        00000000 001b78 0005f4 00      0   0  1
-  [ 7] .debug_abbrev     PROGBITS        00000000 00216c 0005a2 00      0   0  1
-  [ 8] .debug_line       PROGBITS        00000000 00270e 00001a 00      0   0  1
-  [ 9] .debug_str        PROGBITS        00000000 002728 000208 00      0   0  1
-  [10] .shstrtab         STRTAB          00000000 002930 00007f 00      0   0  1
-  [11] .symtab           SYMTAB          00000000 002bb8 0010e0 10     12 174  4
-  [12] .strtab           STRTAB          00000000 003c98 001054 00      0   0  1
+  [ 1] .data             PROGBITS        00800100 0016fe 00046e 00  WA  0   0  1
+  [ 2] .text             PROGBITS        00000000 000094 00166a 00  AX  0   0  2
+  [ 3] .bss              NOBITS          0080056e 001b6c 000173 00  WA  0   0  1
+  [ 4] .comment          PROGBITS        00000000 001b6c 000011 01  MS  0   0  1
+  [ 5] .note.gnu.avr.deviceinfo NOTE            00000000 001b80 000040 00      0   0  4
+  [ 6] .debug_info       PROGBITS        00000000 001bc0 0005f4 00      0   0  1
+  [ 7] .debug_abbrev     PROGBITS        00000000 0021b4 0005a2 00      0   0  1
+  [ 8] .debug_line       PROGBITS        00000000 002756 00001a 00      0   0  1
+  [ 9] .debug_str        PROGBITS        00000000 002770 000208 00      0   0  1
+  [10] .shstrtab         STRTAB          00000000 002978 00007f 00      0   0  1
+  [11] .symtab           SYMTAB          00000000 002c00 0010f0 10     12 175  4
+  [12] .strtab           STRTAB          00000000 003cf0 00105f 00      0   0  1
 Key to Flags:
   W (write), A (alloc), X (execute), M (merge), S (strings)
   I (info), L (link order), G (group), T (TLS), E (exclude), x (unknown)
@@ -43,9 +43,9 @@ There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  LOAD           0x000094 0x00000000 0x00000000 0x01622 0x01622 R E 0x2
-  LOAD           0x0016b6 0x00800100 0x00001622 0x0046e 0x0046e RW  0x1
-  LOAD           0x001b24 0x0080056e 0x0080056e 0x00000 0x000ab RW  0x1
+  LOAD           0x000094 0x00000000 0x00000000 0x0166a 0x0166a R E 0x2
+  LOAD           0x0016fe 0x00800100 0x0000166a 0x0046e 0x0046e RW  0x1
+  LOAD           0x001b6c 0x0080056e 0x0080056e 0x00000 0x00173 RW  0x1
 
  Section to Segment mapping:
   Segment Sections...
@@ -59,7 +59,7 @@ There are no relocations in this file.
 
 The decoding of unwind sections for machine type Atmel AVR 8-bit microcontroller is not currently supported.
 
-Symbol table '.symtab' contains 270 entries:
+Symbol table '.symtab' contains 271 entries:
    Num:    Value  Size Type    Bind   Vis      Ndx Name
      0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND 
      1: 00800100     0 SECTION LOCAL  DEFAULT    1 
@@ -71,7 +71,7 @@ Symbol table '.symtab' contains 270 entries:
      7: 00000000     0 SECTION LOCAL  DEFAULT    7 
      8: 00000000     0 SECTION LOCAL  DEFAULT    8 
      9: 00000000     0 SECTION LOCAL  DEFAULT    9 
-    10: 00000000     0 FILE    LOCAL  DEFAULT  ABS ccVe8RCG.ltrans0.o
+    10: 00000000     0 FILE    LOCAL  DEFAULT  ABS ccPljtlz.ltrans0.o
     11: 0000003e     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_H__
     12: 0000003d     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_L__
     13: 0000003f     0 NOTYPE  LOCAL  DEFAULT  ABS __SREG__
@@ -93,247 +93,248 @@ Symbol table '.symtab' contains 270 entries:
     29: 000002a8    28 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial4peekEv
     30: 000002c4    24 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial9availableEv
     31: 000002dc    20 FUNC    LOCAL  DEFAULT    2 _Z17Serial0_availablev
-    32: 0080056f   157 OBJECT  LOCAL  DEFAULT    3 Serial
+    32: 00800637   157 OBJECT  LOCAL  DEFAULT    3 Serial
     33: 000002f0    20 FUNC    LOCAL  DEFAULT    2 _Z14serialEventRunv
-    34: 00000304     2 FUNC    LOCAL  DEFAULT    2 _Z9functionDv
-    35: 00000306     2 FUNC    LOCAL  DEFAULT    2 _Z9functionCv
-    36: 00000308     2 FUNC    LOCAL  DEFAULT    2 _Z9functionBv
-    37: 0000030a     2 FUNC    LOCAL  DEFAULT    2 _Z9functionAv
-    38: 0000030c     4 FUNC    LOCAL  DEFAULT    2 __cxa_pure_virtual
-    39: 00000310    42 FUNC    LOCAL  DEFAULT    2 _ZN5Print5writeEPKc
-    40: 00800611     4 OBJECT  LOCAL  DEFAULT    3 timer0_millis
-    41: 00800610     1 OBJECT  LOCAL  DEFAULT    3 timer0_fract
-    42: 0080060c     4 OBJECT  LOCAL  DEFAULT    3 timer0_overflow_count
-    43: 000003ce     4 FUNC    LOCAL  DEFAULT    2 _ZdaPv
-    44: 000003d2     4 FUNC    LOCAL  DEFAULT    2 _ZdlPv
-    45: 000003d6     4 FUNC    LOCAL  DEFAULT    2 _Znaj
-    46: 000003da     4 FUNC    LOCAL  DEFAULT    2 _Znwj
-    47: 000003de     2 FUNC    LOCAL  DEFAULT    2 _Z8setupUSBv
-    48: 000003e0     2 FUNC    LOCAL  DEFAULT    2 initVariant
-    49: 000003e2     6 FUNC    LOCAL  DEFAULT    2 atexit
-    50: 000003e8     4 FUNC    LOCAL  DEFAULT    2 __cxa_deleted_virtual
-    51: 000003ec   146 FUNC    LOCAL  DEFAULT    2 _ZN5Print11printNumberEmh
-    52: 0000047e     8 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEv
-    53: 00000486    20 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printERK9Printable
-    54: 0000049a    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnERK9Printable
-    55: 000004be    26 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEmi
-    56: 000004d8    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEmi
-    57: 000004fc    12 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEji
-    58: 00000508    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEji
-    59: 0000052c    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEhi
-    60: 0000053a    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEhi
-    61: 0000055e    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEc
-    62: 0000056c    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEc
-    63: 00000590   148 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEli
-    64: 00000624    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEli
-    65: 00000648    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEii
-    66: 00000656    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEii
-    67: 0000067a     4 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEPKc
-    68: 0000067e   454 FUNC    LOCAL  DEFAULT    2 _ZN5Print10printFloatEdh
-    69: 00000844     4 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEdi
-    70: 00000848    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEdi
-    71: 0000086c    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEPKc
-    72: 00000890    52 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printERK6String
-    73: 000008c4    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnERK6String
-    74: 000008e8    72 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEPK19__FlashStringHelper
-    75: 00000930    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEPK19__FlashStringHelper
-    76: 00000954    12 FUNC    LOCAL  DEFAULT    2 _GLOBAL__sub_I___vector_18
-    77: 00000960    72 FUNC    LOCAL  DEFAULT    2 _Z41__static_initialization_and_destruction_0ii
-    78: 000009f4    30 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial17availableForWriteEv
-    79: 00000a12    68 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial3endEv
-    80: 00000a56   204 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5beginEmh
-    81: 00000b22     6 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5beginEm
-    82: 00000b28    66 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial17_tx_udr_empty_irqEv
-    83: 00000bb6   142 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5writeEh
-    84: 00000c44    68 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5flushEv
-    85: 00000c88     2 FUNC    LOCAL  DEFAULT    2 loop
-    86: 00000c8a   602 FUNC    LOCAL  DEFAULT    2 setup
-    87: 00800100     1 OBJECT  LOCAL  DEFAULT    1 _ZL8initchar
-    88: 0080056e     1 OBJECT  LOCAL  DEFAULT    3 _ZL10uninitchar
-    89: 00800107     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.65
-    90: 00800108     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.60
-    91: 00800109     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.55
-    92: 0080010a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.50
-    93: 0080010b     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.45
-    94: 0080010c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.40
-    95: 0080010d     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.35
-    96: 0080010e     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.30
-    97: 0080010f     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.25
-    98: 00800110     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.20
-    99: 00800111     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.15
-   100: 00800112     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.10
-   101: 00800113     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.5
-   102: 00800114     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.0
-   103: 00800115     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.66
-   104: 00800116     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.61
-   105: 00800117     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.56
-   106: 00800118     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.51
-   107: 00800119     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.46
-   108: 0080011a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.41
-   109: 0080011b     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.36
-   110: 0080011c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.31
-   111: 0080011d     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.26
-   112: 0080011e     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.21
-   113: 0080011f     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.16
-   114: 00800120     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.11
-   115: 00800121     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.6
-   116: 00800122     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.1
-   117: 00800123     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.67
-   118: 00800124     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.62
-   119: 00800125     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.57
-   120: 00800126     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.52
-   121: 00800127     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.47
-   122: 00800128     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.42
-   123: 00800129     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.37
-   124: 0080012a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.32
-   125: 0080012b     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.27
-   126: 0080012c     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.22
-   127: 0080012d     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.17
-   128: 0080012e     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.12
-   129: 0080012f     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.7
-   130: 00800130     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.2
-   131: 00800131     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.68
-   132: 00800132     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.63
-   133: 00800133     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.58
-   134: 00800134     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.53
-   135: 00800135     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.48
-   136: 00800136     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.43
-   137: 00800137     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.38
-   138: 00800138     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.33
-   139: 00800139     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.28
-   140: 0080013a     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.23
-   141: 0080013b     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.18
-   142: 0080013c     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.13
-   143: 0080013d     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.8
-   144: 0080013e     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.3
-   145: 0080013f     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.69
-   146: 00800140     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.64
-   147: 00800141     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.59
-   148: 00800142     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.54
-   149: 00800143     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.49
-   150: 00800144     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.44
-   151: 00800145     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.39
-   152: 00800146     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.34
-   153: 00800147     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.29
-   154: 00800148     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.24
-   155: 00800149     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.19
-   156: 0080014a     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.14
-   157: 0080014b     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.9
-   158: 0080014c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.4
-   159: 00000000     0 FILE    LOCAL  DEFAULT  ABS _udivmodsi4.o
-   160: 00000f18     0 NOTYPE  LOCAL  DEFAULT    2 __udivmodsi4_ep
-   161: 00000efe     0 NOTYPE  LOCAL  DEFAULT    2 __udivmodsi4_loop
-   162: 00000000     0 FILE    LOCAL  DEFAULT  ABS _exit.o
-   163: 00001620     0 NOTYPE  LOCAL  DEFAULT    2 __stop_program
-   164: 00000000     0 FILE    LOCAL  DEFAULT  ABS malloc.c
-   165: 0000003e     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_H__
-   166: 0000003d     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_L__
-   167: 0000003f     0 NOTYPE  LOCAL  DEFAULT  ABS __SREG__
-   168: 00000000     0 NOTYPE  LOCAL  DEFAULT  ABS __tmp_reg__
-   169: 00000001     0 NOTYPE  LOCAL  DEFAULT  ABS __zero_reg__
-   170: 00000000     0 FILE    LOCAL  DEFAULT  ABS _clear_bss.o
-   171: 00000096     0 NOTYPE  LOCAL  DEFAULT    2 .do_clear_bss_start
-   172: 00000094     0 NOTYPE  LOCAL  DEFAULT    2 .do_clear_bss_loop
-   173: 00000000     0 FILE    LOCAL  DEFAULT  ABS 
-   174: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_22
-   175: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_1
-   176: 00001026     8 FUNC    GLOBAL DEFAULT    2 __divsf3
-   177: 00001258    34 FUNC    GLOBAL DEFAULT    2 __fp_round
-   178: 0000127a    68 FUNC    GLOBAL DEFAULT    2 __fp_split3
-   179: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __trampolines_start
-   180: 000011e2    72 FUNC    GLOBAL DEFAULT    2 __fp_cmp
-   181: 00001622     0 NOTYPE  GLOBAL DEFAULT    2 _etext
-   182: 00000f42    14 FUNC    GLOBAL DEFAULT    2 __subsf3
-   183: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_24
-   184: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_12
-   185: 000000ba     0 NOTYPE  GLOBAL DEFAULT    2 __bad_interrupt
-   186: 00001a90     0 NOTYPE  GLOBAL DEFAULT  ABS __data_load_end
-   187: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_6
-   188: 000013c4   298 FUNC    GLOBAL DEFAULT    2 malloc
-   189: 0000101c     0 NOTYPE  GLOBAL DEFAULT    2 __lesf2
-   190: 00800103     2 OBJECT  GLOBAL DEFAULT    1 __malloc_heap_start
-   191: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __trampolines_end
-   192: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_3
-   193: 000012be    14 FUNC    GLOBAL DEFAULT    2 __fp_zero
-   194: 0000101c     0 NOTYPE  GLOBAL DEFAULT    2 __nesf2
-   195: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_23
-   196: 00001622     0 NOTYPE  GLOBAL DEFAULT  ABS __data_load_start
-   197: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __dtors_end
-   198: 00800619     0 NOTYPE  GLOBAL DEFAULT    3 __bss_end
-   199: 000013ba    10 FUNC    GLOBAL DEFAULT    2 abort
-   200: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_25
-   201: 00800615     2 OBJECT  GLOBAL DEFAULT    3 __brkval
-   202: 0000104e   220 FUNC    GLOBAL DEFAULT    2 __divsf3x
-   203: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_11
-   204: 0000006a     0 NOTYPE  WEAK   DEFAULT    2 __init
-   205: 000012cc     0 NOTYPE  GLOBAL DEFAULT    2 __gtsf2
-   206: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_13
-   207: 00001302     0 NOTYPE  GLOBAL DEFAULT    2 __mulsf3_pse
-   208: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_17
-   209: 00001236     6 FUNC    GLOBAL DEFAULT    2 __fp_nan
-   210: 00000b6a    76 FUNC    GLOBAL DEFAULT    2 __vector_19
-   211: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_7
-   212: 0000122a    12 FUNC    GLOBAL DEFAULT    2 __fp_inf
-   213: 0000008c    16 NOTYPE  GLOBAL HIDDEN     2 __do_clear_bss
-   214: 00810000     0 NOTYPE  GLOBAL DEFAULT    4 __eeprom_end
-   215: 000012fc   210 FUNC    GLOBAL DEFAULT    2 __mulsf3x
-   216: 00800101     2 OBJECT  GLOBAL DEFAULT    1 __malloc_heap_end
-   217: 0000116c     0 NOTYPE  GLOBAL DEFAULT    2 __floatsisf
-   218: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _Z11serialEventv
-   219: 00000000     0 NOTYPE  GLOBAL DEFAULT    2 __vectors
-   220: 0080056e     0 NOTYPE  GLOBAL DEFAULT    1 __data_end
-   221: 0000101c     0 NOTYPE  GLOBAL DEFAULT    2 __eqsf2
-   222: 00000000     0 NOTYPE  WEAK   DEFAULT    2 __vector_default
-   223: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_5
-   224: 00000f36    12 NOTYPE  GLOBAL HIDDEN     2 __tablejump2__
-   225: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __ctors_start
-   226: 00000076    22 NOTYPE  GLOBAL HIDDEN     2 __do_copy_data
-   227: 0000101c    10 FUNC    GLOBAL DEFAULT    2 __cmpsf2
-   228: 0000124a    14 FUNC    GLOBAL DEFAULT    2 __fp_pscB
-   229: 0000128a     0 NOTYPE  GLOBAL DEFAULT    2 __fp_splitA
-   230: 0080056e     0 NOTYPE  GLOBAL DEFAULT    3 __bss_start
-   231: 00000ee4    14 FUNC    GLOBAL DEFAULT    2 main
-   232: 0000101c     0 NOTYPE  GLOBAL DEFAULT    2 __ltsf2
-   233: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_4
-   234: 000012d6     8 FUNC    GLOBAL DEFAULT    2 __mulsf3
-   235: 00000000     0 NOTYPE  WEAK   DEFAULT  ABS __heap_end
-   236: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_9
-   237: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_2
-   238: 00000f72   204 FUNC    GLOBAL DEFAULT    2 __addsf3x
-   239: 000012cc    10 FUNC    GLOBAL DEFAULT    2 __gesf2
-   240: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_21
-   241: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_15
-   242: 0000123c    14 FUNC    GLOBAL DEFAULT    2 __fp_pscA
-   243: 00800619     0 NOTYPE  GLOBAL DEFAULT    4 __heap_start
-   244: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __dtors_start
-   245: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __ctors_end
-   246: 000008ff     0 NOTYPE  WEAK   DEFAULT  ABS __stack
-   247: 0080056e     0 NOTYPE  GLOBAL DEFAULT    1 _edata
-   248: 00800619     0 NOTYPE  GLOBAL DEFAULT    4 _end
-   249: 000013b0    10 FUNC    GLOBAL DEFAULT    2 __unordsf2
-   250: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_8
-   251: 00001054     0 NOTYPE  GLOBAL DEFAULT    2 __divsf3_pse
-   252: 0000161e     0 NOTYPE  WEAK   HIDDEN     2 exit
-   253: 00001168   122 FUNC    GLOBAL DEFAULT    2 __floatunsisf
-   254: 00800617     2 OBJECT  GLOBAL DEFAULT    3 __flp
-   255: 00000ef2    68 NOTYPE  GLOBAL HIDDEN     2 __udivmodsi4
-   256: 0000110a    94 FUNC    GLOBAL DEFAULT    2 __fixunssfsi
-   257: 0000161e     0 NOTYPE  GLOBAL HIDDEN     2 _exit
-   258: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_14
-   259: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_10
-   260: 0000033a   148 FUNC    GLOBAL DEFAULT    2 __vector_16
-   261: 00800100     0 NOTYPE  GLOBAL DEFAULT    1 __data_start
-   262: 000009a8    76 FUNC    GLOBAL DEFAULT    2 __vector_18
-   263: 00000003     0 NOTYPE  WEAK   DEFAULT  ABS __FUSE_REGION_LENGTH__
-   264: 00800105     2 OBJECT  GLOBAL DEFAULT    1 __malloc_margin
-   265: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_20
-   266: 00000f44     0 NOTYPE  GLOBAL DEFAULT    2 __addsf3
-   267: 000014ee   304 FUNC    GLOBAL DEFAULT    2 free
-   268: 000012c0     0 NOTYPE  GLOBAL DEFAULT    2 __fp_szero
-   269: 0000009c    22 NOTYPE  GLOBAL HIDDEN     2 __do_global_ctors
+    34: 00000304    26 FUNC    LOCAL  DEFAULT    2 _Z9functionDv
+    35: 0080056e   200 OBJECT  LOCAL  DEFAULT    3 stackArray
+    36: 0000031e     4 FUNC    LOCAL  DEFAULT    2 _Z9functionCv
+    37: 00000322     4 FUNC    LOCAL  DEFAULT    2 _Z9functionBv
+    38: 00000326     4 FUNC    LOCAL  DEFAULT    2 _Z9functionAv
+    39: 0000032a     4 FUNC    LOCAL  DEFAULT    2 __cxa_pure_virtual
+    40: 0000032e    42 FUNC    LOCAL  DEFAULT    2 _ZN5Print5writeEPKc
+    41: 008006d9     4 OBJECT  LOCAL  DEFAULT    3 timer0_millis
+    42: 008006d8     1 OBJECT  LOCAL  DEFAULT    3 timer0_fract
+    43: 008006d4     4 OBJECT  LOCAL  DEFAULT    3 timer0_overflow_count
+    44: 000003ec     4 FUNC    LOCAL  DEFAULT    2 _ZdaPv
+    45: 000003f0     4 FUNC    LOCAL  DEFAULT    2 _ZdlPv
+    46: 000003f4     4 FUNC    LOCAL  DEFAULT    2 _Znaj
+    47: 000003f8     4 FUNC    LOCAL  DEFAULT    2 _Znwj
+    48: 000003fc     2 FUNC    LOCAL  DEFAULT    2 _Z8setupUSBv
+    49: 000003fe     2 FUNC    LOCAL  DEFAULT    2 initVariant
+    50: 00000400     6 FUNC    LOCAL  DEFAULT    2 atexit
+    51: 00000406     4 FUNC    LOCAL  DEFAULT    2 __cxa_deleted_virtual
+    52: 0000040a   146 FUNC    LOCAL  DEFAULT    2 _ZN5Print11printNumberEmh
+    53: 0000049c     8 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEv
+    54: 000004a4    20 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printERK9Printable
+    55: 000004b8    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnERK9Printable
+    56: 000004dc    26 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEmi
+    57: 000004f6    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEmi
+    58: 0000051a    12 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEji
+    59: 00000526    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEji
+    60: 0000054a    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEhi
+    61: 00000558    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEhi
+    62: 0000057c    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEc
+    63: 0000058a    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEc
+    64: 000005ae   148 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEli
+    65: 00000642    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEli
+    66: 00000666    14 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEii
+    67: 00000674    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEii
+    68: 00000698     4 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEPKc
+    69: 0000069c   454 FUNC    LOCAL  DEFAULT    2 _ZN5Print10printFloatEdh
+    70: 00000862     4 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEdi
+    71: 00000866    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEdi
+    72: 0000088a    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEPKc
+    73: 000008ae    52 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printERK6String
+    74: 000008e2    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnERK6String
+    75: 00000906    72 FUNC    LOCAL  DEFAULT    2 _ZN5Print5printEPK19__FlashStringHelper
+    76: 0000094e    36 FUNC    LOCAL  DEFAULT    2 _ZN5Print7printlnEPK19__FlashStringHelper
+    77: 00000972    12 FUNC    LOCAL  DEFAULT    2 _GLOBAL__sub_I___vector_18
+    78: 0000097e    72 FUNC    LOCAL  DEFAULT    2 _Z41__static_initialization_and_destruction_0ii
+    79: 00000a12    30 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial17availableForWriteEv
+    80: 00000a30    68 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial3endEv
+    81: 00000a74   204 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5beginEmh
+    82: 00000b40     6 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5beginEm
+    83: 00000b46    66 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial17_tx_udr_empty_irqEv
+    84: 00000bd4   142 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5writeEh
+    85: 00000c62    68 FUNC    LOCAL  DEFAULT    2 _ZN14HardwareSerial5flushEv
+    86: 00000ca6     2 FUNC    LOCAL  DEFAULT    2 loop
+    87: 00000ca8   644 FUNC    LOCAL  DEFAULT    2 setup
+    88: 00800100     1 OBJECT  LOCAL  DEFAULT    1 _ZL8initchar
+    89: 00800636     1 OBJECT  LOCAL  DEFAULT    3 _ZL10uninitchar
+    90: 00800107     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.65
+    91: 00800108     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.60
+    92: 00800109     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.55
+    93: 0080010a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.50
+    94: 0080010b     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.45
+    95: 0080010c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.40
+    96: 0080010d     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.35
+    97: 0080010e     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.30
+    98: 0080010f     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.25
+    99: 00800110     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.20
+   100: 00800111     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.15
+   101: 00800112     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.10
+   102: 00800113     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.5
+   103: 00800114     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.0
+   104: 00800115     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.66
+   105: 00800116     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.61
+   106: 00800117     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.56
+   107: 00800118     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.51
+   108: 00800119     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.46
+   109: 0080011a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.41
+   110: 0080011b     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.36
+   111: 0080011c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.31
+   112: 0080011d     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.26
+   113: 0080011e     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.21
+   114: 0080011f     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.16
+   115: 00800120     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.11
+   116: 00800121     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.6
+   117: 00800122     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.1
+   118: 00800123     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.67
+   119: 00800124     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.62
+   120: 00800125     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.57
+   121: 00800126     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.52
+   122: 00800127     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.47
+   123: 00800128     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.42
+   124: 00800129     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.37
+   125: 0080012a     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.32
+   126: 0080012b     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.27
+   127: 0080012c     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.22
+   128: 0080012d     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.17
+   129: 0080012e     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.12
+   130: 0080012f     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.7
+   131: 00800130     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.2
+   132: 00800131     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.68
+   133: 00800132     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.63
+   134: 00800133     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.58
+   135: 00800134     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.53
+   136: 00800135     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.48
+   137: 00800136     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.43
+   138: 00800137     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.38
+   139: 00800138     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.33
+   140: 00800139     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.28
+   141: 0080013a     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.23
+   142: 0080013b     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.18
+   143: 0080013c     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.13
+   144: 0080013d     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.8
+   145: 0080013e     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.3
+   146: 0080013f     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A7.lto_priv.69
+   147: 00800140     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A6.lto_priv.64
+   148: 00800141     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A5.lto_priv.59
+   149: 00800142     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A4.lto_priv.54
+   150: 00800143     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A3.lto_priv.49
+   151: 00800144     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A2.lto_priv.44
+   152: 00800145     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A1.lto_priv.39
+   153: 00800146     1 OBJECT  LOCAL  DEFAULT    1 _ZL2A0.lto_priv.34
+   154: 00800147     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCL.lto_priv.29
+   155: 00800148     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SDA.lto_priv.24
+   156: 00800149     1 OBJECT  LOCAL  DEFAULT    1 _ZL3SCK.lto_priv.19
+   157: 0080014a     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MISO.lto_priv.14
+   158: 0080014b     1 OBJECT  LOCAL  DEFAULT    1 _ZL4MOSI.lto_priv.9
+   159: 0080014c     1 OBJECT  LOCAL  DEFAULT    1 _ZL2SS.lto_priv.4
+   160: 00000000     0 FILE    LOCAL  DEFAULT  ABS _udivmodsi4.o
+   161: 00000f60     0 NOTYPE  LOCAL  DEFAULT    2 __udivmodsi4_ep
+   162: 00000f46     0 NOTYPE  LOCAL  DEFAULT    2 __udivmodsi4_loop
+   163: 00000000     0 FILE    LOCAL  DEFAULT  ABS _exit.o
+   164: 00001668     0 NOTYPE  LOCAL  DEFAULT    2 __stop_program
+   165: 00000000     0 FILE    LOCAL  DEFAULT  ABS malloc.c
+   166: 0000003e     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_H__
+   167: 0000003d     0 NOTYPE  LOCAL  DEFAULT  ABS __SP_L__
+   168: 0000003f     0 NOTYPE  LOCAL  DEFAULT  ABS __SREG__
+   169: 00000000     0 NOTYPE  LOCAL  DEFAULT  ABS __tmp_reg__
+   170: 00000001     0 NOTYPE  LOCAL  DEFAULT  ABS __zero_reg__
+   171: 00000000     0 FILE    LOCAL  DEFAULT  ABS _clear_bss.o
+   172: 00000096     0 NOTYPE  LOCAL  DEFAULT    2 .do_clear_bss_start
+   173: 00000094     0 NOTYPE  LOCAL  DEFAULT    2 .do_clear_bss_loop
+   174: 00000000     0 FILE    LOCAL  DEFAULT  ABS 
+   175: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_22
+   176: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_1
+   177: 0000106e     8 FUNC    GLOBAL DEFAULT    2 __divsf3
+   178: 000012a0    34 FUNC    GLOBAL DEFAULT    2 __fp_round
+   179: 000012c2    68 FUNC    GLOBAL DEFAULT    2 __fp_split3
+   180: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __trampolines_start
+   181: 0000122a    72 FUNC    GLOBAL DEFAULT    2 __fp_cmp
+   182: 0000166a     0 NOTYPE  GLOBAL DEFAULT    2 _etext
+   183: 00000f8a    14 FUNC    GLOBAL DEFAULT    2 __subsf3
+   184: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_24
+   185: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_12
+   186: 000000ba     0 NOTYPE  GLOBAL DEFAULT    2 __bad_interrupt
+   187: 00001ad8     0 NOTYPE  GLOBAL DEFAULT  ABS __data_load_end
+   188: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_6
+   189: 0000140c   298 FUNC    GLOBAL DEFAULT    2 malloc
+   190: 00001064     0 NOTYPE  GLOBAL DEFAULT    2 __lesf2
+   191: 00800103     2 OBJECT  GLOBAL DEFAULT    1 __malloc_heap_start
+   192: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __trampolines_end
+   193: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_3
+   194: 00001306    14 FUNC    GLOBAL DEFAULT    2 __fp_zero
+   195: 00001064     0 NOTYPE  GLOBAL DEFAULT    2 __nesf2
+   196: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_23
+   197: 0000166a     0 NOTYPE  GLOBAL DEFAULT  ABS __data_load_start
+   198: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __dtors_end
+   199: 008006e1     0 NOTYPE  GLOBAL DEFAULT    3 __bss_end
+   200: 00001402    10 FUNC    GLOBAL DEFAULT    2 abort
+   201: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_25
+   202: 008006dd     2 OBJECT  GLOBAL DEFAULT    3 __brkval
+   203: 00001096   220 FUNC    GLOBAL DEFAULT    2 __divsf3x
+   204: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_11
+   205: 0000006a     0 NOTYPE  WEAK   DEFAULT    2 __init
+   206: 00001314     0 NOTYPE  GLOBAL DEFAULT    2 __gtsf2
+   207: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_13
+   208: 0000134a     0 NOTYPE  GLOBAL DEFAULT    2 __mulsf3_pse
+   209: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_17
+   210: 0000127e     6 FUNC    GLOBAL DEFAULT    2 __fp_nan
+   211: 00000b88    76 FUNC    GLOBAL DEFAULT    2 __vector_19
+   212: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_7
+   213: 00001272    12 FUNC    GLOBAL DEFAULT    2 __fp_inf
+   214: 0000008c    16 NOTYPE  GLOBAL HIDDEN     2 __do_clear_bss
+   215: 00810000     0 NOTYPE  GLOBAL DEFAULT    4 __eeprom_end
+   216: 00001344   210 FUNC    GLOBAL DEFAULT    2 __mulsf3x
+   217: 00800101     2 OBJECT  GLOBAL DEFAULT    1 __malloc_heap_end
+   218: 000011b4     0 NOTYPE  GLOBAL DEFAULT    2 __floatsisf
+   219: 00000000     0 NOTYPE  WEAK   DEFAULT  UND _Z11serialEventv
+   220: 00000000     0 NOTYPE  GLOBAL DEFAULT    2 __vectors
+   221: 0080056e     0 NOTYPE  GLOBAL DEFAULT    1 __data_end
+   222: 00001064     0 NOTYPE  GLOBAL DEFAULT    2 __eqsf2
+   223: 00000000     0 NOTYPE  WEAK   DEFAULT    2 __vector_default
+   224: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_5
+   225: 00000f7e    12 NOTYPE  GLOBAL HIDDEN     2 __tablejump2__
+   226: 00000068     0 NOTYPE  GLOBAL DEFAULT    2 __ctors_start
+   227: 00000076    22 NOTYPE  GLOBAL HIDDEN     2 __do_copy_data
+   228: 00001064    10 FUNC    GLOBAL DEFAULT    2 __cmpsf2
+   229: 00001292    14 FUNC    GLOBAL DEFAULT    2 __fp_pscB
+   230: 000012d2     0 NOTYPE  GLOBAL DEFAULT    2 __fp_splitA
+   231: 0080056e     0 NOTYPE  GLOBAL DEFAULT    3 __bss_start
+   232: 00000f2c    14 FUNC    GLOBAL DEFAULT    2 main
+   233: 00001064     0 NOTYPE  GLOBAL DEFAULT    2 __ltsf2
+   234: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_4
+   235: 0000131e     8 FUNC    GLOBAL DEFAULT    2 __mulsf3
+   236: 00000000     0 NOTYPE  WEAK   DEFAULT  ABS __heap_end
+   237: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_9
+   238: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_2
+   239: 00000fba   204 FUNC    GLOBAL DEFAULT    2 __addsf3x
+   240: 00001314    10 FUNC    GLOBAL DEFAULT    2 __gesf2
+   241: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_21
+   242: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_15
+   243: 00001284    14 FUNC    GLOBAL DEFAULT    2 __fp_pscA
+   244: 008006e1     0 NOTYPE  GLOBAL DEFAULT    4 __heap_start
+   245: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __dtors_start
+   246: 0000006a     0 NOTYPE  GLOBAL DEFAULT    2 __ctors_end
+   247: 000008ff     0 NOTYPE  WEAK   DEFAULT  ABS __stack
+   248: 0080056e     0 NOTYPE  GLOBAL DEFAULT    1 _edata
+   249: 008006e1     0 NOTYPE  GLOBAL DEFAULT    4 _end
+   250: 000013f8    10 FUNC    GLOBAL DEFAULT    2 __unordsf2
+   251: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_8
+   252: 0000109c     0 NOTYPE  GLOBAL DEFAULT    2 __divsf3_pse
+   253: 00001666     0 NOTYPE  WEAK   HIDDEN     2 exit
+   254: 000011b0   122 FUNC    GLOBAL DEFAULT    2 __floatunsisf
+   255: 008006df     2 OBJECT  GLOBAL DEFAULT    3 __flp
+   256: 00000f3a    68 NOTYPE  GLOBAL HIDDEN     2 __udivmodsi4
+   257: 00001152    94 FUNC    GLOBAL DEFAULT    2 __fixunssfsi
+   258: 00001666     0 NOTYPE  GLOBAL HIDDEN     2 _exit
+   259: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_14
+   260: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_10
+   261: 00000358   148 FUNC    GLOBAL DEFAULT    2 __vector_16
+   262: 00800100     0 NOTYPE  GLOBAL DEFAULT    1 __data_start
+   263: 000009c6    76 FUNC    GLOBAL DEFAULT    2 __vector_18
+   264: 00000003     0 NOTYPE  WEAK   DEFAULT  ABS __FUSE_REGION_LENGTH__
+   265: 00800105     2 OBJECT  GLOBAL DEFAULT    1 __malloc_margin
+   266: 000000ba     0 NOTYPE  WEAK   DEFAULT    2 __vector_20
+   267: 00000f8c     0 NOTYPE  GLOBAL DEFAULT    2 __addsf3
+   268: 00001536   304 FUNC    GLOBAL DEFAULT    2 free
+   269: 00001308     0 NOTYPE  GLOBAL DEFAULT    2 __fp_szero
+   270: 0000009c    22 NOTYPE  GLOBAL HIDDEN     2 __do_global_ctors
 
 No version information found in this file.
 
-Displaying notes found at file offset 0x00001b38 with length 0x00000040:
+Displaying notes found at file offset 0x00001b80 with length 0x00000040:
   Owner                 Data size	Description
   AVR                  0x0000002d	NT_VERSION (version)

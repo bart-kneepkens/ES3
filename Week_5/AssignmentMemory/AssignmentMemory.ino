@@ -1,11 +1,18 @@
-volatile static char initchar = 'a';    // Initialized global var, should end up in data
-volatile static char uninitchar = 0;    // Uninitialized global var, should end up in bss
+volatile static char initchar = 'a';    // Initialized global var, should end up in data.
+volatile static char uninitchar = 0;    // Uninitialized global var, should end up in bss.
+uint8_t stackArray[200];                 // Used for stack dump.
 
-// Empty functions, used solely for discovering their addresses.
+// Functions we're using for stack dump and discovering addresses.
 void functionA() { functionB(); }
 void functionB() { functionC(); }
 void functionC() { functionD(); }
-void functionD() { int x = 1; }
+void functionD() 
+{
+  // Fill the stack dump.
+  unsigned char* l_SP = (unsigned char*)SP;
+  for (int i = 0; i < 200; i++)
+    stackArray[i] = *(l_SP + i);
+}
 
 void setup()
 {
@@ -68,7 +75,10 @@ void setup()
   Serial.print("+----------------+  address of functionC() = "); Serial.println((int) &functionC, HEX);
   Serial.print("+----------------+  address of functionD() = "); Serial.println((int) &functionD, HEX);
 
-  functionA();  // Call functionA for testing. 
+  functionA();  // Call functionA for testing.
+  for (int i = 0; i < 200; i++) 
+    Serial.println((int) stackArray[i], HEX);
+
   delete tmp;   // Look at me, I'm being totally responsible with my memory management!
 }
 
