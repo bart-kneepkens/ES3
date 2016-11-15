@@ -82,6 +82,23 @@ while(1){
     if(inpData[5] != 0){
 	printf("Right Trigger: %i/255 \n", inpData[5]);
     }
+    
+    if(inpData[6] && inpData[7]){
+    	printf("Left Stick X-axis: %i/65536\n", (inpData[6] << 8) | inpData[7]);
+    }
+    
+     if(inpData[8] && inpData[9]){
+    	printf("Left Stick Y-axis: %i/65536\n", (inpData[8] << 8) | inpData[9]);
+    }
+    
+     if(inpData[10] && inpData[11]){
+    	printf("Right Stick X-axis: %i/65536\n", (inpData[10] << 8) | inpData[11]);
+    }
+    
+     if(inpData[12] && inpData[13]){
+    	printf("Right Stick Y-axis: %i/65536\n", (inpData[12] << 8) | inpData[13]);
+    }
+    
   }
 }
 }
