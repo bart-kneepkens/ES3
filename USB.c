@@ -5,12 +5,12 @@
 libusb_device_handle *h;
 int error, transferred;
 
+int printStickOutputs = 0;
+
 int
 main(int argc, char *argv[])
 {
- 
- unsigned char data[] = { 0, 8, 0, 0xcc, 0xcc, 0, 0, 0  };  //000800bbll000000
- 
+
 
  libusb_init(NULL);
  h = libusb_open_device_with_vid_pid(NULL, 0x045e, 0x028e);
@@ -19,6 +19,9 @@ main(int argc, char *argv[])
   return (1);
  }
  
+  	// turn light off
+ 	rotateLeds(0);
+ 
  //rumble(1);
  //sleep(5);
  //rumble(0);
@@ -26,11 +29,15 @@ main(int argc, char *argv[])
  //rotateLeds(1);
  //sleep(5);
  //rotateLeds(0);
+ 
+ int ignore = 0;
 
 while(1){
   u_int8_t inpData[20];
 
-  if(libusb_interrupt_transfer(h, 0x81, inpData, 20 , &transferred, 0) == 0) {
+  if(libusb_interrupt_transfer(h, 0x81, inpData, 20 , &transferred, 0) == 0 && !ignore) {
+  
+  ignore = 1;
     if (getBitAtIndex(inpData[2], 0) == 1) {
       printf("D-Pad up\n");
     }
@@ -63,6 +70,17 @@ while(1){
     }
     if (getBitAtIndex(inpData[3], 2) == 1) {
       printf("Xbox logo button\n");
+      if(printStickOutputs){
+      	printStickOutputs = 0;
+      	rotateLeds(0);
+      }
+      else{
+      	printStickOutputs = 1;
+      	rotateLeds(1);
+      	rumble(1);
+      	usleep(200000);
+      	rumble(0);
+      }
     }
     if (getBitAtIndex(inpData[3], 4) == 1) {
       printf("Button A\n");
@@ -83,6 +101,8 @@ while(1){
 	printf("Right Trigger: %i/255 \n", inpData[5]);
     }
     
+   if(printStickOutputs){
+   
     if(inpData[6] && inpData[7]){
     	printf("Left Stick X-axis: %i/65536\n", (inpData[6] << 8) | inpData[7]);
     }
@@ -97,8 +117,11 @@ while(1){
     
      if(inpData[12] && inpData[13]){
     	printf("Right Stick Y-axis: %i/65536\n", (inpData[12] << 8) | inpData[13]);
+    } 
     }
     
+  } else {
+  	ignore = 0;
   }
 }
 }
