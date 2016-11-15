@@ -76,6 +76,12 @@ while(1){
     if (getBitAtIndex(inpData[3], 7) == 1) {
       printf("Button Y\n");
     }
+    if(inpData[4] != 0){
+    	printf("Left Trigger: %i/255 \n", inpData[4]);
+    }
+    if(inpData[5] != 0){
+	printf("Right Trigger: %i/255 \n", inpData[5]);
+    }
   }
 }
 }
