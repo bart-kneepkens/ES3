@@ -9,8 +9,44 @@
 #include <stdio.h>
 #include <unistd.h>
 
-libusb_device_handle *h;
-int error, transferred, printStickOutputs, ignore;
+static libusb_device_handle *h;
+static int error, transferred, printStickOutputs, ignore;
+
+//Gets the bit at the specified index in the specified byte. Its value will be either 0 or 1.
+static int getBitAtIndex(int byte, int index) {
+    return byte >> index & 1;
+}
+
+// Turn the xbox's controller rumble on or off, depending on the parameter being 1 or 0 respectively.
+static int rumble(int shouldRumble){
+    unsigned char data[] = { 0, 8, 0, 0xcc, 0xcc, 0, 0, 0  };
+    
+    if(shouldRumble == 0){
+        data[3] = 0;
+        data[4] = 0;
+    }
+    
+    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
+        fprintf(stderr, "Transfer failed: %d\n", error);
+        return (1);
+    }
+    return (0);
+}
+
+// Turn the xbox's controller leds on (spinning) or off, depending on the parameter being 1 or 0 respectively.
+static int rotateLeds(int shouldShow){
+    unsigned char data[] = {1,3, 0x0a  };
+    
+    if(shouldShow == 0) {
+        data[2] = 0;
+    }
+    
+    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
+        fprintf(stderr, "Transfer failed: %d\n", error);
+        return (1);
+    }
+    return (0);
+}
 
 int main(int argc, char *argv[]) {
     libusb_init(NULL);
@@ -140,40 +176,4 @@ int main(int argc, char *argv[]) {
             ignore = 0;
         }
     }
-}
-
-//Gets the bit at the specified index in the specified byte. Its value will be either 0 or 1.
-int getBitAtIndex(int byte, int index) {
-    return byte >> index & 1;
-}
-
-// Turn the xbox's controller rumble on or off, depending on the parameter being 1 or 0 respectively.
-int rumble(int shouldRumble){
-    unsigned char data[] = { 0, 8, 0, 0xcc, 0xcc, 0, 0, 0  };
-    
-    if(shouldRumble == 0){
-        data[3] = 0;
-        data[4] = 0;
-    }
-    
-    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
-        fprintf(stderr, "Transfer failed: %d\n", error);
-        return (1);
-    }
-    return (0);
-}
-
-// Turn the xbox's controller leds on (spinning) or off, depending on the parameter being 1 or 0 respectively.
-int rotateLeds(int shouldShow){
-    unsigned char data[] = {1,3, 0x0a  };
-    
-    if(shouldShow == 0) {
-        data[2] = 0;
-    }
-    
-    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
-        fprintf(stderr, "Transfer failed: %d\n", error);
-        return (1);
-    }
-    return (0);
 }
