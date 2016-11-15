@@ -1,3 +1,10 @@
+#define PRODUCTID 0x045e
+#define VENDORID 0x028e
+#define ENDPOINT2IN 0x81
+#define ENDPOINT2OUT 0x01
+#define BUFFERSIZE 20
+#define RUMBLETIME 200000
+
 #include <libusb-1.0/libusb.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -7,16 +14,16 @@ int error, transferred, printStickOutputs, ignore;
 
 int main(int argc, char *argv[]) {
     libusb_init(NULL);
-    h = libusb_open_device_with_vid_pid(NULL, 0x045e, 0x028e);
+    h = libusb_open_device_with_vid_pid(NULL, PRODUCTID, VENDORID);
     if (h == NULL) {
         fprintf(stderr, "Failed to open device\n");
         return (1);
     }
     
     while(1) {
-        u_int8_t inpData[20];
+        u_int8_t inpData[BUFFERSIZE];
         
-        if(libusb_interrupt_transfer(h, 0x81, inpData, 20 , &transferred, 0) == 0 && !ignore) {
+        if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0 && !ignore) {
             
             ignore = 1;
             
@@ -76,7 +83,7 @@ int main(int argc, char *argv[]) {
                     printStickOutputs = 1;
                     rotateLeds(1);
                     rumble(1);
-                    usleep(200000);
+                    usleep(RUMBLETIME);
                     rumble(0);
                 }
             }
@@ -149,7 +156,7 @@ int rumble(int shouldRumble){
         data[4] = 0;
     }
     
-    if ((error = libusb_interrupt_transfer(h, 0x01, data, sizeof data, &transferred, 0)) != 0) {
+    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
         fprintf(stderr, "Transfer failed: %d\n", error);
         return (1);
     }
@@ -164,7 +171,7 @@ int rotateLeds(int shouldShow){
         data[2] = 0;
     }
     
-    if ((error = libusb_interrupt_transfer(h, 0x01, data, sizeof data, &transferred, 0)) != 0) {
+    if ((error = libusb_interrupt_transfer(h, ENDPOINT2OUT, data, sizeof data, &transferred, 0)) != 0) {
         fprintf(stderr, "Transfer failed: %d\n", error);
         return (1);
     }
