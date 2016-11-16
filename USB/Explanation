@@ -1,0 +1,13 @@
+The C application works as follows:
+
+Using the libusb-library to make communication via USB easier, we listen for input from the xbox controller. Input is send every time one of the input methods on the controller (buttons, sticks, triggers...) is pressed. This sending is done via interrupt transfers, which are caught by our code. According to the bits that are set in the received data, we can deduce which input method on the controller was pressed. We then take action accordingly in the following ways:
+
+- If any of the buttons, D-pad arrows, or sticks was pressed, a message is printed in the terminal displaying what button was pressed;
+- If the triggers were pulled, then a message is printed in the terminal displaying what trigger was pulled and with what value (ranging from 0 to 255);
+- If the big xbox button in the middle was pressed, then besides a message being printed in the terminal displaying it was pressed, it also causes the controller to vibrate briefly and the lights surrounding the xbox button to rotate around (both done via an interrupt transfer) as well as enabling the stick-feedback mode. Pressing the xbox button again disables the stick-feedback mode again;
+- If the stick-feedback mode is enabled and the sticks are pulled or pushed in any directions, then messages are printed in the terminal displaying what sticks are being pulled or pushed and with what values (ranging from 0 to 65536).
+
+In order to build the code, open a terminal in the correct folder (or move to it) and run the Makefile ('make').
+
+In order to run the code, type './xbox'.
+
