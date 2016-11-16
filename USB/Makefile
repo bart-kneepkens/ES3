@@ -1,7 +1,11 @@
-CC=gcc
-CFLAGS=-O2 -Wall -Werror
-LIBS=-lusb-1.0
-OBJ = USB
+CFLAGS=-O2 -Wall -Werror -lusb-1.0
 
-$(OBJ) : $(OBJ).c \
-    $(OBJ).c $(LIBS)
+USB_SOURCE=USB.c
+
+GCC=arm-linux-gcc
+
+usb: 
+	$(GCC) $(CFLAGS) $(USB_SOURCE) -o xbox
+
+clean:
+	@rm -rf xbox
