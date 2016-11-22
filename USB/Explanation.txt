@@ -1,3 +1,5 @@
+== YOUTUBE VIDEO: https://www.youtube.com/watch?v=xAWW5xS9VLU == 
+
 The C application works as follows:
 
 Using the libusb-library to make communication via USB easier, we listen for input from the xbox controller. Input is send every time one of the input methods on the controller (buttons, sticks, triggers...) is pressed. This sending is done via interrupt transfers, which are caught by our code. According to the bits that are set in the received data, we can deduce which input method on the controller was pressed. We then take action accordingly in the following ways:
