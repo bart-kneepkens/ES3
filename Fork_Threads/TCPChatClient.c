@@ -21,27 +21,26 @@ int main (int argc, char *argv[])
     parse_args (argc, argv);
 
     sock = CreateTCPClientSocket (argv_ip, argv_port);
+    
+    printf("%s", "Conversation has started. \n\n");
+    
+    while(1){
         
-    for (i = 0; i < argv_nrofdata; i++)
-    {
-        echoString = argv_data [i];
-        echoStringLen = strlen (echoString);          /* Determine input length */
-
-        delaying();
+        char message[RCVBUFSIZE];
         
-        echoString[echoStringLen] = '\0';
+        fgets(message, RCVBUFSIZE, stdin);
         
-        // DONE: add code to send this string to the server; use send()
-        send(sock, echoString, echoStringLen + 1, 0);
-        // DONE: add code to display the transmitted string in verbose mode; use info_s()
-        info_s("sent echoString", echoString);
+        printf("YOU: %s \n", message);
         
-        // DONE: add code to receive & display the converted string from the server
-        //       use recv() & printf()
-        recv(sock, echoString, echoStringLen + 1, 0);
+        message[RCVBUFSIZE] = '\0';
         
-        printf("received : %s \n", echoString);
+        send(sock, message, RCVBUFSIZE - 1, 0);
         
+        char reply[RCVBUFSIZE];
+        
+        recv(sock, reply, RCVBUFSIZE - 1, 0);
+        
+        printf("PEER: %s \n", reply);
     }
 
     delaying ();

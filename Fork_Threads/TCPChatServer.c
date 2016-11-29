@@ -1,7 +1,8 @@
+#include <stdio.h>
 #include "Auxiliary.h"
 #include "AcceptTCPConnection.h"
 #include "CreateTCPServerSocket.h"
-#include "HandleTCPClient.h"
+#include "HandleTCPClientChat.c"
 
 int main (int argc, char * argv[])
 {
@@ -15,7 +16,9 @@ int main (int argc, char * argv[])
     for (;;) /* Run forever */
     {
         clntSock = AcceptTCPConnection (servSock);
-        HandleTCPClient (clntSock);
+        
+        HandleTCPClientChat(clntSock);
+        //printf("%s", "Client connected");
     }
     /* NOT REACHED */
 }
