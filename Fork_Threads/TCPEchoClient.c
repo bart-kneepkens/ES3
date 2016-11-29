@@ -29,8 +29,10 @@ int main (int argc, char *argv[])
 
         delaying();
         
+        echoString[echoStringLen] = '\0';
+        
         // DONE: add code to send this string to the server; use send()
-        send(sock, echoString, echoStringLen, 0);
+        send(sock, echoString, echoStringLen + 1, 0);
         // DONE: add code to display the transmitted string in verbose mode; use info_s()
         info_s("sent echoString", echoString);
         
