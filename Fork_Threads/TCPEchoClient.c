@@ -38,8 +38,7 @@ int main (int argc, char *argv[])
         
         // DONE: add code to receive & display the converted string from the server
         //       use recv() & printf()
-        
-        recv(sock, echoString, echoStringLen, 0);
+        recv(sock, echoString, echoStringLen + 1, 0);
         
         printf("received : %s \n", echoString);
         

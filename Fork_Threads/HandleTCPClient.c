@@ -44,7 +44,7 @@ void HandleTCPClient (int clntSocket)
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
     {
         // DONE: add code to print the received string; use printf()
-        printf("Received stirng: %s \n", echoBuffer);
+        printf("Received string: %s \n", echoBuffer);
         
         // DONE: add code to convert the upper/lower chars of the received string
         reverseCase(&echoBuffer[0]);
