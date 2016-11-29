@@ -29,11 +29,17 @@ int main (int argc, char *argv[])
 
         delaying();
         
-        // TODO: add code to send this string to the server; use send()
-        // TODO: add code to display the transmitted string in verbose mode; use info_s()
+        // DONE: add code to send this string to the server; use send()
+        send(sock, echoString, echoStringLen, 0);
+        // DONE: add code to display the transmitted string in verbose mode; use info_s()
+        info_s("echoString", echoString);
         
-        // TODO: add code to receive & display the converted string from the server
+        // DONE: add code to receive & display the converted string from the server
         //       use recv() & printf()
+        
+        recv(sock, echoString, echoStringLen, 0);
+        
+        printf("%s", echoString);
         
     }
 

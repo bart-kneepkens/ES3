@@ -2,11 +2,28 @@
 #include <ctype.h>      // for isupper() etc.
 #include <sys/socket.h> // for send() and recv()
 #include <unistd.h>     // for sleep(), close()
+#include <cstring>
 
 #include "Auxiliary.h"
 #include "HandleTCPClient.h"
 
 #define RCVBUFSIZE 32   /* Size of receive buffer */
+
+void reverseCase (char * input){
+    printf("reverseCase");
+    
+    for(int i=0;input[i];i++)
+    {
+        if((input[i] > 64)&&(input[i] < 91)) //check if in range of upper case characters
+        {
+            input[i] += 32; //is upper, offset 32 to make lower
+        }
+        else if((input[i] > 96)&&(input[i] < 123)) //check if in range of lower case characters
+        {
+            input[i] -= 32; //is lower, offset -32 to make upper
+        }
+    }
+}
 
 void HandleTCPClient (int clntSocket)
 {
@@ -26,9 +43,11 @@ void HandleTCPClient (int clntSocket)
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
     {
-        // TODO: add code to print the received string; use printf()
+        // DONE: add code to print the received string; use printf()
+        printf("%s", echoBuffer);
         
-        // TODO: add code to convert the upper/lower chars of the received string
+        // DONE: add code to convert the upper/lower chars of the received string
+        reverseCase(&echoBuffer[0]);
         
         delaying ();
         
@@ -39,6 +58,7 @@ void HandleTCPClient (int clntSocket)
         }
 
         // TODO: add code to display the transmitted string in verbose mode; use info_s()
+        info_s("info_s transmitted string:", echoBuffer);
 
         // receive next string
         recvMsgSize = recv (clntSocket, echoBuffer, RCVBUFSIZE-1, 0);
