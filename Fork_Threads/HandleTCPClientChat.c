@@ -13,7 +13,8 @@
 void HandleTCPClientChat (int clntSocket)
 {
     char message[RCVBUFSIZE];        /* Buffer for message string */
-    int  recvMsgSize;                   /* Size of received message */
+    int recvMsgSize;                   /* Size of received message */
+    int onGoing = 1;
     
     recvMsgSize = recv(clntSocket, message, RCVBUFSIZE - 1, 0);
     
@@ -21,7 +22,7 @@ void HandleTCPClientChat (int clntSocket)
         
         printf("%s", "Conversation has started. \n\n");
         
-        while(1){
+        while(strcmp(message, "/quit\n") != 0){
         
             printf("PEER: %s \n", message);
             
@@ -33,6 +34,9 @@ void HandleTCPClientChat (int clntSocket)
             
             recv(clntSocket, message, RCVBUFSIZE - 1, 0);
         }
+        
+        printf("%s", "EXITED");
+        send(clntSocket, message, RCVBUFSIZE - 1, 0);
 
     }
     

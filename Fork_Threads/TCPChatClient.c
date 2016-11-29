@@ -12,11 +12,7 @@
 int main (int argc, char *argv[])
 {
     int         sock;                   /* Socket descriptor */
-    char *      echoString;             /* String to send to echo server */
-    char        echoBuffer[RCVBUFSIZE]; /* Buffer for received string */
-    int         echoStringLen;          /* Length of string to echo */
-    int         bytesRcvd;              /* Bytes read in single recv() */
-    int         i;                      /* counter for data-arguments */
+    int onGoing = 1;
 
     parse_args (argc, argv);
 
@@ -24,11 +20,18 @@ int main (int argc, char *argv[])
     
     printf("%s", "Conversation has started. \n\n");
     
-    while(1){
+    while(onGoing){
         
         char message[RCVBUFSIZE];
         
         fgets(message, RCVBUFSIZE, stdin);
+        
+        if(strcmp(message, "/quit\n") == 0){
+            printf("%s", "EXITED");
+            onGoing = 0;
+            send(sock, message, RCVBUFSIZE - 1, 0);
+            break;
+        }
         
         printf("YOU: %s \n", message);
         
