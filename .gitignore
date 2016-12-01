@@ -11,3 +11,5 @@ Fork_Threads/TCPEchoServer-Fork.o
 Fork_Threads/TCPEchoServer-Thread
 Fork_Threads/TCPEchoServer-Thread.o
 Fork_Threads/TCPEchoServer.o
+*.o
+
