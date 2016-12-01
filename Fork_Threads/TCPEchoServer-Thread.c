@@ -4,7 +4,7 @@
 #include "AcceptTCPConnection.h"
 #include "CreateTCPServerSocket.h"
 #include "HandleTCPClient.h"
-#include <unistd.h>     // for sleep()
+#include <unistd.h>     // for close()
 
 static void * myThread (void * arg);            /* thread that does the work */
 
@@ -23,14 +23,16 @@ int main (int argc, char *argv[])
     {
         clntSock = AcceptTCPConnection (servSock);
 
-        // TODO: create&start the thread myThread() te creeeren
+        // DONE: create&start the thread myThread() te creeeren
         // use the POSIX operation pthread_create()
         //
         // make sure that clntSock and servSock are closed at the correct locations 
         // (in particular: at those places where you don't need them any more)
         
-        pthread_create(&threadID, NULL, myThread, &clntSock);
-        
+        if(pthread_create(&threadID, NULL, myThread, &clntSock) != 0){
+            info_d("Error creating thread. Exiting.", clntSock);
+            to_quit = true;
+        }
     }
     
     close(servSock);
@@ -41,7 +43,7 @@ int main (int argc, char *argv[])
 
 static void * myThread (void * threadArgs)
 {
-    // TODO: write the code to handle the client data
+    // DONE: write the code to handle the client data
     // use operation HandleTCPClient()
     //  
     // Hint: use the info(), info_d(), info_s() operations to trace what happens

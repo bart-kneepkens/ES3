@@ -14,7 +14,6 @@ void HandleTCPClientChat (int clntSocket)
 {
     char message[RCVBUFSIZE];        /* Buffer for message string */
     int recvMsgSize;                   /* Size of received message */
-    int onGoing = 1;
     
     recvMsgSize = recv(clntSocket, message, RCVBUFSIZE - 1, 0);
     

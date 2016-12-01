@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
             // The PID must be < 0
             // This indicates error.
             info_d("Fatal Error: Cant fork!", processID);
-            close(servSock);
-            return(1);
+            to_quit = true;
         }
         
     }

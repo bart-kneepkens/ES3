@@ -17,16 +17,16 @@ int main (int argc, char *argv[])
     int         echoStringLen;          /* Length of string to echo */
     int         bytesRcvd;              /* Bytes read in single recv() */
     int         i;                      /* counter for data-arguments */
-
+    
     parse_args (argc, argv);
-
+    
     sock = CreateTCPClientSocket (argv_ip, argv_port);
-        
+    
     for (i = 0; i < argv_nrofdata; i++)
     {
         echoString = argv_data [i];
-        echoStringLen = strlen (echoString);          /* Determine input length */
-
+        echoStringLen = strlen(echoString);          /* Determine input length */
+        
         delaying();
         
         echoString[echoStringLen] = '\0';
@@ -34,18 +34,22 @@ int main (int argc, char *argv[])
         // DONE: add code to send this string to the server; use send()
         send(sock, echoString, echoStringLen + 1, 0);
         // DONE: add code to display the transmitted string in verbose mode; use info_s()
-        info_s("sent echoString", echoString);
+        info_s("Sent :", echoString);
         
         // DONE: add code to receive & display the converted string from the server
         //       use recv() & printf()
-        recv(sock, echoString, echoStringLen + 1, 0);
+        bytesRcvd = recv(sock, echoBuffer, echoStringLen + 1, 0);
         
-        printf("received : %s \n", echoString);
         
+        if(bytesRcvd != -1){
+            printf("received : %s \n", echoBuffer);
+        } else {
+            info_d("Error receiving data on socket", sock);
+        }
     }
-
+    
     delaying ();
-
+    
     close (sock);
     info ("close & exit");
     exit (0);
