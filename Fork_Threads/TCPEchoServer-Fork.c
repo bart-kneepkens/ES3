@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
 
     while (!to_quit)                /* run until someone indicates to quit... */
     {
-        clntSock = AcceptTCPConnection (servSock);
+        clntSock = AcceptTCPConnection(servSock);
 
-        // TODO: write the code to realise the following:
+        // DONE: write the code to realise the following:
         //
         // fork() a new process and:
         // * check if the fork() gave problems
@@ -45,22 +45,25 @@ int main(int argc, char *argv[])
         if(processID == 0){
             // child
             HandleTCPClient(clntSock);
-            info("Child Process..");
+            info("Child Process : 0");
         }
         else if (processID > 0){
             // parent
             // Do nothing, move unto the wait.
-            info("Parent Process..");
+            info_d("Parent Process : ", processID);
             continue;
         }
         else {
             // The PID must be < 0
             // This indicates error.
             info_d("Fatal Error: Cant fork!", processID);
+            close(servSock);
             return(1);
         }
         
     }
+    
+    close(servSock);
     
     // server stops...
 	return (0);

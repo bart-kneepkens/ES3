@@ -9,7 +9,7 @@ BINARIES = TCPEchoClient TCPEchoServer TCPEchoServer-Fork TCPEchoServer-Thread T
 #CC = i586-linux-g++
 CC = g++
 CFLAGS = -g3 -Wall -W -Wshadow -Wcast-qual -Wwrite-strings
-LDLIBS = -lrt
+LDLIBS = -lrt -pthread
 CLIENT_AUX_OBJS = Auxiliary.o CreateTCPClientSocket.o
 SERVER_AUX_OBJS = Auxiliary.o CreateTCPServerSocket.o AcceptTCPConnection.o HandleTCPClient.o
 

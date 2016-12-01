@@ -38,13 +38,12 @@ void HandleTCPClient (int clntSocket)
     {
         DieWithError ("recv() failed");
     }
-    info_d ("Recv", recvMsgSize);
 
     /* Send received string and receive again until end of transmission */
     while (recvMsgSize > 0)      /* zero indicates end of transmission */
     {
         // DONE: add code to print the received string; use printf()
-        printf("Received string: %s \n", echoBuffer);
+        printf("Handler received string: %s \n", echoBuffer);
         
         // DONE: add code to convert the upper/lower chars of the received string
         reverseCase(&echoBuffer[0]);
@@ -58,7 +57,7 @@ void HandleTCPClient (int clntSocket)
         }
 
         // TODO: add code to display the transmitted string in verbose mode; use info_s()
-        info_s("info_s transmitted string: \n", echoBuffer);
+        info_s("Handler sent string: ", echoBuffer);
 
         // receive next string
         recvMsgSize = recv (clntSocket, echoBuffer, RCVBUFSIZE-1, 0);
@@ -66,7 +65,6 @@ void HandleTCPClient (int clntSocket)
         {
             DieWithError ("recv() failed");
         }
-        info_d ("recv", recvMsgSize);
     }
 
     close (clntSocket);    /* Close client socket */
