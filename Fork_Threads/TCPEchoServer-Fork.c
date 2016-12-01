@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     servSock = CreateTCPServerSocket (argv_port);
 
-    while (to_quit == false)                /* run until someone indicates to quit... */
+    while (!to_quit)                /* run until someone indicates to quit... */
     {
         clntSock = AcceptTCPConnection (servSock);
 
@@ -39,6 +39,27 @@ int main(int argc, char *argv[])
         // (in particular: at those places where you don't need them any more)
 		//
 		// Hint: use the info(), info_d(), info_s() operations to trace what happens
+        
+        processID = fork();
+        
+        if(processID == 0){
+            // child
+            HandleTCPClient(clntSock);
+            info("Child Process..");
+        }
+        else if (processID > 0){
+            // parent
+            // Do nothing, move unto the wait.
+            info("Parent Process..");
+            continue;
+        }
+        else {
+            // The PID must be < 0
+            // This indicates error.
+            info_d("Fatal Error: Cant fork!", processID);
+            return(1);
+        }
+        
     }
     
     // server stops...
