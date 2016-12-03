@@ -6,14 +6,14 @@
 
 #include "Auxiliary.h"
 
-#define RCVBUFSIZE 32   /* Size of receive buffer */
+#define RCVBUFSIZE 32   // Size of receive buffer
 
 
-/* This function waits for the first message to be received, then starts the chat. */
+// This function waits for the first message to be received, then starts the chat.
 void HandleTCPClientChat (int clntSocket)
 {
-    char message[RCVBUFSIZE];        /* Buffer for message string */
-    int recvMsgSize;                   /* Size of received message */
+    char message[RCVBUFSIZE];        // Buffer for message string
+    int recvMsgSize;                 // Size of received message
     
     recvMsgSize = recv(clntSocket, message, RCVBUFSIZE - 1, 0);
     
@@ -21,24 +21,24 @@ void HandleTCPClientChat (int clntSocket)
         
         printf("%s", "Conversation has started. \n\n");
         
-        while(strcmp(message, "/quit\n") != 0){
+        while(strcmp(message, "/quit\n") != 0){             // Do this until the user enters '/quit'
         
             printf("PEER: %s \n", message);
             
-            fgets(message, RCVBUFSIZE, stdin);
+            fgets(message, RCVBUFSIZE, stdin);              // Read the input string from terminal
             
             printf("YOU: %s \n", message);
             
-            send(clntSocket, message, RCVBUFSIZE - 1, 0);
+            send(clntSocket, message, RCVBUFSIZE - 1, 0);   // Send the user input to the client
             
-            recv(clntSocket, message, RCVBUFSIZE - 1, 0);
+            recv(clntSocket, message, RCVBUFSIZE - 1, 0);   // Wait for the reply of the client
         }
         
-        printf("%s", "EXITED");
+        info("EXITED");
+        
         send(clntSocket, message, RCVBUFSIZE - 1, 0);
-
     }
     
-    close (clntSocket);    /* Close client socket */
+    close (clntSocket);
     info ("close");
 }
