@@ -15,3 +15,5 @@ Fork_Threads/TCPEchoServer.o
 
 Fork_Threads/TCPChatClient
 Fork_Threads/TCPChatServer
+
+.idea/
