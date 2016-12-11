@@ -5,10 +5,12 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "grade_t.h"
 #include "grades_t.h"
 
 struct grades_t *vaddr;
+int shm_fd;
 
 // Add a grade_t struct to the end of the array in vaddr.
 // Pushes the other items forward (towards 0) by one.
@@ -19,9 +21,20 @@ void addToBuffer(struct grade_t grade){
     vaddr->grades[9] = grade;
 }
 
-int main(){
-    int shm_fd;
+void on_interrupt(int a){
+    // Clean up the shared memory
+    munmap(vaddr, sizeof(grades_t));
+    close(shm_fd);
+    shm_unlink("grades");
     
+    // Clean up the semaphores
+    sem_close(&(vaddr->filledCount));
+    sem_close(&(vaddr->emptyCount));
+    
+    exit(0);
+}
+
+int main(){
     // Get shared memory file descriptor.
     if ((shm_fd = shm_open("grades", O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
@@ -63,6 +76,9 @@ int main(){
     
     // Semaphores are ready for use.
     printf("Semaphores successfully Initialized with value 0 and 10.\n");
+    
+    // Call 'exiting' when CTRL + C is pressed
+    signal(SIGINT, on_interrupt);
     
     
     int i = 0;

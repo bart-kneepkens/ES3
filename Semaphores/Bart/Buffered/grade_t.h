@@ -1,4 +1,3 @@
-#include <semaphore.h>
 
 struct grade_t{
     int value;
