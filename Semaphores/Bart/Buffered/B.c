@@ -18,7 +18,7 @@ struct grades_t{
 	sem_t emptyCount;
 };
 
-struct grade_t removeLastFromBuffer(){
+struct grade_t takeLastFromBuffer(){
 	struct grade_t last = vaddr->grades[0];
 	
 	for (int i = 0; i < 9; i++){
@@ -60,18 +60,11 @@ int main(){
     printf("Shared Memory successfully opened.\n");
     
     while(1){
-		//sem_wait(&(vaddr->semaphore));
-		//printf("%i=%s\n", vaddr->grades[0].value, vaddr->grades[0].note);	
-		//printf("%i=%s\n", vaddr->value, vaddr->note);	
-		//sem_post(&(vaddr->semaphore));
-		//sleep(1);
-		
 		sem_wait(&(vaddr->filledCount));
 		
-		struct grade_t item = removeLastFromBuffer();
+		struct grade_t item = takeLastFromBuffer();
 		
 		sem_post(&(vaddr->emptyCount));
-		
 		
 		printf("%i=%s\n", item.value, item.note);	
 	}

@@ -83,7 +83,6 @@ int main(){
     struct grade_t currentGrade;
     
     while(1){
-      //sem_wait(&(vaddr->semaphore));
       currentGrade.value = i;
         
         switch (i) {
@@ -125,20 +124,10 @@ int main(){
         
         sem_post(&(vaddr->filledCount));
         
-        //addToBuffer(currentGrade);
-        //sem_post(&(vaddr->semaphore));
-        
-        //printf("%i:%s\n",vaddr->grades[0].value, vaddr->grades[0].note);
-        //PrintBuffer();
-        
-        
-        
         i++;
         
         if(i == 10){
             i = 0;
         }
-        
-        //sleep(1);
     }
 }
