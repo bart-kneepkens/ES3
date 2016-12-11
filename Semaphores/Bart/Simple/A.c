@@ -38,7 +38,7 @@ int main(){
     // Shared memory is ready for use.
     printf("Shared Memory successfully opened.\n");
     
-    // Initialize semaphore with value 1.
+    // Initialize semaphore 'semaphore' with value 1.
     if(sem_init(&(vaddr->semaphore), 1, 1) != 0){
         perror("cannot sem_init");
         return -1;
