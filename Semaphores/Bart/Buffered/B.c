@@ -25,7 +25,7 @@ int main(){
     int shm_fd;
     
     // Get shared memory file descriptor.
-    if ((shm_fd = shm_open("my_shm", O_CREAT | O_RDWR, 0666)) == -1){
+    if ((shm_fd = shm_open("grades", O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }
