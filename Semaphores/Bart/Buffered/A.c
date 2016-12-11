@@ -27,16 +27,6 @@ void addToBuffer(struct grade_t grade){
 	vaddr->grades[9] = grade;
 }
 
-void PrintBuffer(){
-	printf("{");
-	
-	for (int i = 0; i < 10; i++){
-		printf("%i,", vaddr->grades[i].value);
-	}
-	
-	printf("}\n");
-}
-
 int main(){
     int shm_fd;
     /* get shared memory handle */

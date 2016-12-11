@@ -2,7 +2,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <string.h>
-#include <fcntl.h> /* For O_* constants */
+#include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
 

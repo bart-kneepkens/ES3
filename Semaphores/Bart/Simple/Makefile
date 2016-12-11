@@ -1,4 +1,4 @@
-CFLAGS=-O2 -Wall -Wno-write-strings
+CFLAGS=-O2 -Wall
 
 GCC=g++
 
