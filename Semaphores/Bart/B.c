@@ -20,14 +20,12 @@ int main(){
         perror("cannot open");
         return -1;
     }
-    printf("opened\n");
     
     /* set the shared memory size to SHM_SIZE */
     if (ftruncate(shm_fd, sizeof(grade_t)) != 0){
         perror("cannot set size");
         return -1;
     }
-    printf("truncated\n");
     
     /* Map shared memory in address space. MAP_SHARED flag tells that this is a
      * shared mapping */
@@ -35,28 +33,20 @@ int main(){
         perror("cannot mmap");
         return -1;
     }
-    printf("mapped\n");
     
     /* lock the shared memory */
     if (mlock(vaddr, sizeof(grade_t)) != 0){
         perror("cannot mlock");
         return -1;
     }
-    printf("locked\n");
     
     /* Shared memory is ready for use */
-    printf("READY FOR USE\n");
-    
-    sleep(5);
+    printf("Shared Memory successfully opened.\n");
     
     while(1){
 		sem_wait(&(vaddr->semaphore));
-		printf("%i=%s\n", vaddr->value, vaddr->note);
-		
-		if(sem_post(&(vaddr->semaphore)) != 0){
-			perror("Cant post semaphore!");
-			return -1;
-		}
-		sleep(1);
+		printf("%i=%s\n", vaddr->value, vaddr->note);	
+		sem_post(&(vaddr->semaphore));
+		usleep(200000);
 	}
 }
