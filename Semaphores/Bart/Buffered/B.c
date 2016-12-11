@@ -4,10 +4,14 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "grade_t.h"
 #include "grades_t.h"
 
+const char* SHM_NAME = "grades";
+
 struct grades_t *vaddr;
+int shm_fd;
 
 // Takes the next up item from the buffer.
 // Pushes the other items forward (towards 0) by 1.
@@ -21,11 +25,19 @@ struct grade_t takeNextFromBuffer(){
     return last;
 }
 
-int main(){
-    int shm_fd;
+void on_interrupt(int a){
+    // Clean up the shared memory
+    munmap(vaddr, sizeof(grades_t));
+    close(shm_fd);
+    shm_unlink(SHM_NAME);
     
+    // Semaphores handled by A.
+    exit(0);
+}
+
+int main(){
     // Get shared memory file descriptor.
-    if ((shm_fd = shm_open("grades", O_CREAT | O_RDWR, 0666)) == -1){
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }
@@ -50,6 +62,9 @@ int main(){
     
     // Shared memory is ready for use.
     printf("Shared Memory successfully opened.\n");
+    
+    // Call 'on_interrupt' when CTRL + C is pressed
+    signal(SIGINT, on_interrupt);
     
     
     while(1){

@@ -4,14 +4,28 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "grade_t.h"
 
-int main(){
-    int shm_fd;
-    struct grade_t *vaddr;
+const char* SHM_NAME = "grade";
+
+struct grade_t *vaddr;
+int shm_fd;
+
+void on_interrupt(int a){
+    // Clean up the shared memory
+    munmap(vaddr, sizeof(grade_t));
+    close(shm_fd);
+    shm_unlink(SHM_NAME);
     
+    // Semaphore handled by A.
+    exit(0);
+}
+
+
+int main(){
     // Get shared memory file descriptor.
-    if ((shm_fd = shm_open("grade", O_CREAT | O_RDWR, 0666)) == -1){
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }

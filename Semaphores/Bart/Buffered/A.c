@@ -9,6 +9,8 @@
 #include "grade_t.h"
 #include "grades_t.h"
 
+const char* SHM_NAME = "grades";
+
 struct grades_t *vaddr;
 int shm_fd;
 
@@ -25,7 +27,7 @@ void on_interrupt(int a){
     // Clean up the shared memory
     munmap(vaddr, sizeof(grades_t));
     close(shm_fd);
-    shm_unlink("grades");
+    shm_unlink(SHM_NAME);
     
     // Clean up the semaphores
     sem_close(&(vaddr->filledCount));
@@ -36,7 +38,7 @@ void on_interrupt(int a){
 
 int main(){
     // Get shared memory file descriptor.
-    if ((shm_fd = shm_open("grades", O_CREAT | O_RDWR, 0666)) == -1){
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }
@@ -77,7 +79,7 @@ int main(){
     // Semaphores are ready for use.
     printf("Semaphores successfully Initialized with value 0 and 10.\n");
     
-    // Call 'exiting' when CTRL + C is pressed
+    // Call 'on_interrupt' when CTRL + C is pressed
     signal(SIGINT, on_interrupt);
     
     

@@ -5,14 +5,29 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "grade_t.h"
 
-int main(){
-    int shm_fd;
-    struct grade_t *vaddr;
+const char* SHM_NAME = "grade";
+
+struct grade_t *vaddr;
+int shm_fd;
+
+void on_interrupt(int a){
+    // Clean up the shared memory
+    munmap(vaddr, sizeof(grade_t));
+    close(shm_fd);
+    shm_unlink(SHM_NAME);
     
+    // Clean up the semaphore
+    sem_close(&(vaddr->semaphore));
+    
+    exit(0);
+}
+
+int main(){
     // Get shared memory file descriptor.
-    if ((shm_fd = shm_open("grade", O_CREAT | O_RDWR, 0666)) == -1){
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }
@@ -47,6 +62,8 @@ int main(){
     // Semaphore is ready for use.
     printf("Semaphore successfully Initialized with value 1.\n");
     
+    // Call 'on_interrupt' when CTRL + C is pressed
+    signal(SIGINT, on_interrupt);
     
     int i = 0;
     
