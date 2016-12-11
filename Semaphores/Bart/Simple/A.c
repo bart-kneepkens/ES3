@@ -5,58 +5,54 @@
 #include <fcntl.h>
 #include <semaphore.h>
 #include <stdlib.h>
-
-struct grade_t{
-    int value;
-    char note[6];
-    sem_t semaphore;
-};
+#include "grade_t.h"
 
 int main(){
     int shm_fd;
     struct grade_t *vaddr;
     
-    /* get shared memory handle */
-    if ((shm_fd = shm_open("my_shm", O_CREAT | O_RDWR, 0666)) == -1){
+    // Get shared memory file descriptor.
+    if ((shm_fd = shm_open("grade", O_CREAT | O_RDWR, 0666)) == -1){
         perror("cannot open");
         return -1;
     }
     
-    /* set the shared memory size to the size of grade_t struct */
+    // Set the shared memory size to the size of grade_t struct.
     if (ftruncate(shm_fd, sizeof(grade_t)) != 0){
         perror("cannot set size");
         return -1;
     }
     
-    /* Map shared memory in address space. MAP_SHARED flag tells that this is a
-     * shared mapping */
+    // Map shared memory in address space.
     if ((vaddr = (struct grade_t *)mmap(0, sizeof(grade_t), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
         perror("cannot mmap");
         return -1;
     }
     
-    /* lock the shared memory */
+    // Lock the shared memory.
     if (mlock(vaddr, sizeof(grade_t)) != 0){
         perror("cannot mlock");
         return -1;
     }
     
-    /* Shared memory is ready for use */
+    // Shared memory is ready for use.
     printf("Shared Memory successfully opened.\n");
     
+    // Initialize semaphore with value 1.
     if(sem_init(&(vaddr->semaphore), 1, 1) != 0){
-		perror("Can not init semaphore");
-		return -1;
-	}
-	
-	printf("Semaphore successfully Initialized with value 1.\n");
+        perror("cannot sem_init");
+        return -1;
+    }
+    
+    // Semaphore is ready for use.
+    printf("Semaphore successfully Initialized with value 1.\n");
+    
     
     int i = 0;
+    
     while(1){
-		
-      sem_wait(&(vaddr->semaphore));
-      vaddr->value = i;
-        
+        sem_wait(&(vaddr->semaphore));
+        vaddr->value = i;
         switch (i) {
             case 0:
                 strcpy(vaddr->note, "zero");
