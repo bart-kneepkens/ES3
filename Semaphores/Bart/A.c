@@ -48,16 +48,23 @@ int main(){
     /* Shared memory is ready for use */
     printf("READY FOR USE\n");
     
+    if(sem_init(&(vaddr->semaphore), 1, 1) != 0){
+		perror("Can not init semaphore");
+		return -1;
+	}
+    
     sleep(2);
     
     int i = 0;
     
     while(1){
-        //sem_wait(&(vaddr->semaphore));
+		
+       if(sem_wait(&(vaddr->semaphore)) != 0){
+		   perror("Can not wait on semaphore");
+		   return -1;
+	   }
+       
        vaddr->value = i;
-        
-       //char numberString[6];
-       //ddr->note = "Hello!";
         
         switch (i) {
             case 0:
@@ -92,22 +99,17 @@ int main(){
                 break;
         }
         
-        
-        //strcpy(vaddr->note,numberString);
-        
-        //sem_post(&(vaddr->semaphore));
+        if(sem_post(&(vaddr->semaphore)) != 0){
+			perror("Can not post semaphore!");
+			return -1;
+		}
         
         printf("%i:%s\n",vaddr->value, vaddr->note);
-        
-        //printf("%i\n",vaddr->value);
         
         i++;
         
         if(i == 10){
             i = 0;
         }
-        
-        sleep(1);
- 
     }
 }

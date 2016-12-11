@@ -31,7 +31,7 @@ int main(){
     
     /* Map shared memory in address space. MAP_SHARED flag tells that this is a
      * shared mapping */
-    if ((vaddr = (struct grade_t *) mmap(0, sizeof(grade_t), PROT_READ, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+    if ((vaddr = (struct grade_t *) mmap(0, sizeof(grade_t), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
         perror("cannot mmap");
         return -1;
     }
@@ -47,17 +47,16 @@ int main(){
     /* Shared memory is ready for use */
     printf("READY FOR USE\n");
     
-    
-    //vaddr->value = 0;
-    //vaddr->note = (char*) malloc(6);
-    
     sleep(5);
-     
-    //sem_post(&(vaddr->semaphore));
     
     while(1){
-		printf("%i:%s\n", vaddr->value, vaddr->note);
-		//printf("%i\n",vaddr->value);
+		sem_wait(&(vaddr->semaphore));
+		printf("%i=%s\n", vaddr->value, vaddr->note);
+		
+		if(sem_post(&(vaddr->semaphore)) != 0){
+			perror("Cant post semaphore!");
+			return -1;
+		}
 		sleep(1);
 	}
 }
