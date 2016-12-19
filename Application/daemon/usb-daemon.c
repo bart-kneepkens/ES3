@@ -8,9 +8,15 @@
 #include <libusb-1.0/libusb.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "../GameController.h"
 
 static libusb_device_handle *h;
 static int error, transferred, printStickOutputs, ignore;
+
+const char* SHM_NAME = "controller";
+
+struct GameController* controller;
+int shm_fd;
 
 //Gets the bit at the specified index in the specified byte. Its value will be either 0 or 1.
 static int getBitAtIndex(int byte, int index) {
@@ -63,39 +69,52 @@ int main(int argc, char *argv[]) {
             
             ignore = 1;
             
+            controller->dPad.up = getBitAtIndex(inpData[2], 0);
+            controller->dPad.down = getBitAtIndex(inpData[2], 1);
+            controller->dPad.left = getBitAtIndex(inpData[2], 2);
+            controller->dPad.right = getBitAtIndex(inpData[2], 3);
+            
             // D-Pad presses
             if (getBitAtIndex(inpData[2], 0) == 1) {
                 printf("D-Pad up\n");
+                controller->dPad.up = true;
             }
             
             if (getBitAtIndex(inpData[2], 1) == 1) {
                 printf("D-Pad down\n");
+                controller->dPad.down = true;
             }
             
             if (getBitAtIndex(inpData[2], 2) == 1) {
                 printf("D-Pad left\n");
+                controller->dPad.left = true;
             }
             
             if (getBitAtIndex(inpData[2], 3) == 1) {
                 printf("D-Pad right\n");
+                controller->dPad.right = true;
             }
             
             
             // Buttons and stick presses
             if (getBitAtIndex(inpData[2], 4) == 1) {
                 printf("Start button\n");
+                controller->startButton = true;
             }
             
             if (getBitAtIndex(inpData[2], 5) == 1) {
                 printf("Back button\n");
+                controller->backButton = true;
             }
             
             if (getBitAtIndex(inpData[2], 6) == 1) {
                 printf("Left stick press\n");
+                controller->leftStickPress = true;
             }
             
             if (getBitAtIndex(inpData[2], 7) == 1) {
                 printf("Right stick press\n");
+                controller->rightStickPress = true;
             }
             
             if (getBitAtIndex(inpData[3], 0) == 1) {

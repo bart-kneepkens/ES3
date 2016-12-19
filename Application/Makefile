@@ -4,10 +4,10 @@ DEAMON_SOURCE=daemon/usb-daemon.c
 MOCK_DAEMON_SOURCE=daemon/MockDaemon.cpp
 CGI_SOURCE=cgi/cgi.cpp
 
-ARM-GCC=arm-linux-gcc
+ARM-GCC=arm-linux-g++
 GPP=g++
 
-.PHONY: cgi
+.PHONY: cgi daemon
 
 cgi: 
 	$(GPP) -O2 -Wall $(CGI_SOURCE) -o cgi/cgi.cgi -lrt
