@@ -4,7 +4,7 @@
 int main(void)
 {
 	char *data;
-	long m;
+	
 	printf("%s%c%c\n","Content-Type:text/html;charset=iso-8859-1",13,10);
 	printf("<TITLE>Bart Kneepkens & Martin Donkersloot</TITLE>\n");
 	printf("<H3>Hi!</H3>\n");

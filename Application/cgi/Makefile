@@ -1,11 +1,11 @@
 CFLAGS=-O2 -Wall -Werror -lusb-1.0
 
-USB_SOURCE=usb-daemon.c
+USB_SOURCE=cgi.c
 
-GCC=arm-linux-gcc
+GCC=gcc
 
 usb: 
-	$(GCC) $(CFLAGS) $(USB_SOURCE) -o usb-daemon
+	$(GCC) $(CFLAGS) $(USB_SOURCE) -o cgi.cgi
 
 clean:
-	@rm -rf usb-daemon
+	@rm -rf cgi.cgi
