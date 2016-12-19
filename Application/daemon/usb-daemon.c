@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include "../GameController.h"
 #include <iostream>
+#include <sys/mman.h>
+#include <fcntl.h> 
 
 static libusb_device_handle *h;
 static int error, transferred, printStickOutputs, ignore;
@@ -77,14 +79,39 @@ static int rotateLeds(int shouldShow){
 }
 
 int main(int argc, char *argv[]) {
+	// Get shared memory file descriptor.
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
+        std::cout << "cannot open" << std::endl;
+        return -1;
+    }
+    
+    // Set the shared memory size to the size of GameController struct.
+    if (ftruncate(shm_fd, sizeof(GameController)) != 0){
+        std::cout << "cannot set size" << std::endl;
+        return -1;
+    }
+    
+    // Map shared memory in address space.
+    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+        std::cout << "cannot mmap" << std::endl;
+        return -1;
+    }
+    
+    // Lock the shared memory.
+    if (mlock(controller, sizeof(GameController)) != 0){
+        std::cout << "cannot mlock" << std::endl;
+        return -1;
+    }
+    
+    // Shared memory is ready for use.
+    std::cout << "Shared Memory successfully opened.\n" << std::endl;
+    
     libusb_init(NULL);
     h = libusb_open_device_with_vid_pid(NULL, PRODUCTID, VENDORID);
     if (h == NULL) {
         fprintf(stderr, "Failed to open device\n");
         return (1);
     }
-    
-    controller = new GameController();
     
     while(1) {
         u_int8_t inpData[BUFFERSIZE];

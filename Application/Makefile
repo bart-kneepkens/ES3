@@ -5,7 +5,7 @@ MOCK_DAEMON_SOURCE=daemon/MockDaemon.cpp
 CGI_SOURCE=cgi/cgi.cpp
 
 ARM-GCC=arm-linux-g++
-GPP=g++
+GPP=arm-linux-g++
 
 .PHONY: cgi daemon
 
@@ -16,7 +16,7 @@ mockdaemon:
 	$(GPP) $(MOCK_DAEMON_SOURCE) -o daemon/mock -lrt
 
 daemon:
-	$(ARM-GCC) $(CFLAGS) $(DEAMON_SOURCE) -o daemon/usb-daemon
+	$(ARM-GCC) $(CFLAGS) $(DEAMON_SOURCE) -o daemon/usb-daemon -lrt
 
 clean:
 	@rm -rf daemon/usb-daemon cgi/cgi.cgi daemon/mock
