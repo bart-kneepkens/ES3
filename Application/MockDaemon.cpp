@@ -32,13 +32,7 @@ void printController(struct GameController c){
 
 int main(){
 	std::cout << "Herro!" << std::endl;
-	controller = new GameController();
-	
-	controller->aButton = true;
-	controller->bButton = true;
-	
-	printController(*controller);
-	
+	//controller = new GameController();
 	
 	// Get shared memory file descriptor.
     if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
@@ -66,5 +60,9 @@ int main(){
     
     // Shared memory is ready for use.
     std::cout << "Shared Memory successfully opened.\n" << std::endl;
-
+    
+	controller->aButton = true;
+	controller->bButton = true;
+	
+	printController(*controller);
 }

@@ -1,11 +1,11 @@
-CFLAGS=-O2 -Wall -Werror -lusb-1.0
+CFLAGS=-O2 -Wall -Werror 
 
 USB_SOURCE=cgi.c
 
-GCC=gcc
+GCC=g++
 
 usb: 
-	$(GCC) $(CFLAGS) $(USB_SOURCE) -o cgi.cgi
+	$(GCC) $(CFLAGS) $(USB_SOURCE) -o cgi.cgi -lrt
 
 clean:
 	@rm -rf cgi.cgi
