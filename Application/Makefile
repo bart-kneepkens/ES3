@@ -1,4 +1,4 @@
-CFLAGS=-O2 -Wall -Werror -lusb-1.0
+CFLAGS=-O2 -Wall -lusb-1.0
 
 DEAMON_SOURCE=daemon/usb-daemon.c
 MOCK_DAEMON_SOURCE=daemon/MockDaemon.cpp

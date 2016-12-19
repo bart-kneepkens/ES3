@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "../GameController.h"
+#include <iostream>
 
 static libusb_device_handle *h;
 static int error, transferred, printStickOutputs, ignore;
@@ -39,9 +40,30 @@ static int rumble(int shouldRumble){
     return (0);
 }
 
+void printController(struct GameController c){
+	std::cout << "========" << std::endl;
+	std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl;
+	std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl;
+	std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl;
+	std::cout << "startButton: " << c.startButton << std::endl;
+	std::cout << "backButton: " << c.backButton << std::endl;
+	std::cout << "leftStickPress: " << c.leftStickPress << std::endl;
+	std::cout << "rightStickPress: " << c.rightStickPress << std::endl;
+	std::cout << "leftBackButton: " << c.leftBackButton << std::endl;
+	std::cout << "rightBackButton: " << c.rightBackButton << std::endl;
+	std::cout << "xboxButton: " << c.xboxButton << std::endl;
+	std::cout << "aButton: " << c.aButton << std::endl;
+	std::cout << "bButton: " << c.bButton << std::endl;
+	std::cout << "xButton: " << c.xButton << std::endl;
+	std::cout << "yButton: " << c.yButton << std::endl;
+	std::cout << "leftTrigger: " << c.leftTrigger << std::endl;
+	std::cout << "rightTrigger: " << c.rightTrigger << std::endl;
+	std::cout << "========" << std::endl;
+}
+
 // Turn the xbox's controller leds on (spinning) or off, depending on the parameter being 1 or 0 respectively.
 static int rotateLeds(int shouldShow){
-    unsigned char data[] = {1,3, 0x0a  };
+    unsigned char data[] = {1,3, 0x0a};
     
     if(shouldShow == 0) {
         data[2] = 0;
@@ -62,10 +84,12 @@ int main(int argc, char *argv[]) {
         return (1);
     }
     
+    controller = new GameController();
+    
     while(1) {
         u_int8_t inpData[BUFFERSIZE];
         
-        if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0 && !ignore) {
+        if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0) {
             
             ignore = 1;
             
@@ -74,125 +98,37 @@ int main(int argc, char *argv[]) {
             controller->dPad.left = getBitAtIndex(inpData[2], 2);
             controller->dPad.right = getBitAtIndex(inpData[2], 3);
             
-            // D-Pad presses
-            if (getBitAtIndex(inpData[2], 0) == 1) {
-                printf("D-Pad up\n");
-                controller->dPad.up = true;
-            }
+            controller->startButton = getBitAtIndex(inpData[2], 4);
+            controller->backButton = getBitAtIndex(inpData[2], 5);
             
-            if (getBitAtIndex(inpData[2], 1) == 1) {
-                printf("D-Pad down\n");
-                controller->dPad.down = true;
-            }
+            controller->leftStickPress = getBitAtIndex(inpData[2], 6);
+            controller->rightStickPress = getBitAtIndex(inpData[2], 7);
             
-            if (getBitAtIndex(inpData[2], 2) == 1) {
-                printf("D-Pad left\n");
-                controller->dPad.left = true;
-            }
-            
-            if (getBitAtIndex(inpData[2], 3) == 1) {
-                printf("D-Pad right\n");
-                controller->dPad.right = true;
-            }
-            
-            
-            // Buttons and stick presses
-            if (getBitAtIndex(inpData[2], 4) == 1) {
-                printf("Start button\n");
-                controller->startButton = true;
-            }
-            
-            if (getBitAtIndex(inpData[2], 5) == 1) {
-                printf("Back button\n");
-                controller->backButton = true;
-            }
-            
-            if (getBitAtIndex(inpData[2], 6) == 1) {
-                printf("Left stick press\n");
-                controller->leftStickPress = true;
-            }
-            
-            if (getBitAtIndex(inpData[2], 7) == 1) {
-                printf("Right stick press\n");
-                controller->rightStickPress = true;
-            }
-            
-            if (getBitAtIndex(inpData[3], 0) == 1) {
-                printf("Button LB\n");
-            }
-            
-            if (getBitAtIndex(inpData[3], 1) == 1) {
-                printf("Button RB\n");
-            }
-            
-            if (getBitAtIndex(inpData[3], 2) == 1) {
-                printf("Xbox logo button\n");
-                
-                // Toggle whether or not the stick outputs should be printed.
-                // If toggled ON, give feedback by a brief rumble and make the leds rotate ON.
-                if(printStickOutputs) {
-                    printStickOutputs = 0;
-                    rotateLeds(0);
-                }
-                else{
-                    printStickOutputs = 1;
-                    rotateLeds(1);
-                    rumble(1);
-                    usleep(RUMBLETIME);
-                    rumble(0);
-                }
-            }
-            
-            if (getBitAtIndex(inpData[3], 4) == 1) {
-                printf("Button A\n");
-            }
-            
-            if (getBitAtIndex(inpData[3], 5) == 1) {
-                printf("Button B\n");
-            }
-            
-            if (getBitAtIndex(inpData[3], 6) == 1) {
-                printf("Button X\n");
-            }
-            
-            if (getBitAtIndex(inpData[3], 7) == 1) {
-                printf("Button Y\n");
-            }
-            
-            
-            // Trigger presses
-            if(inpData[4] != 0){
-                printf("Left Trigger: %i/255 \n", inpData[4]);
-            }
-            
-            if(inpData[5] != 0){
-                printf("Right Trigger: %i/255 \n", inpData[5]);
-            }
-            
-            
-            // Stick movements (can be toggled by pressing the Xbox Button)
-            if(printStickOutputs){
-                if(inpData[6] && inpData[7]){
-                    printf("Left Stick X-axis: %i/65536\n", (inpData[6] << 8) | inpData[7]);
-                }
-                
-                if(inpData[8] && inpData[9]){
-                    printf("Left Stick Y-axis: %i/65536\n", (inpData[8] << 8) | inpData[9]);
-                }
-                
-                if(inpData[10] && inpData[11]){
-                    printf("Right Stick X-axis: %i/65536\n", (inpData[10] << 8) | inpData[11]);
-                }
-                
-                if(inpData[12] && inpData[13]){
-                    printf("Right Stick Y-axis: %i/65536\n", (inpData[12] << 8) | inpData[13]);
-                }
-            }
+            controller->leftBackButton = getBitAtIndex(inpData[3], 0);
+			controller->rightBackButton = getBitAtIndex(inpData[3], 1);
+			
+			controller->xboxButton = getBitAtIndex(inpData[3], 2);
+			
+			controller->aButton = getBitAtIndex(inpData[3], 4);
+			controller->bButton = getBitAtIndex(inpData[3], 5);
+			controller->xButton = getBitAtIndex(inpData[3], 6);
+			controller->yButton = getBitAtIndex(inpData[3], 7);
+       
+			controller->leftTrigger = inpData[4];
+			controller->rightTrigger = inpData[5];
+			
+			controller->leftStick.X = (inpData[6] << 8) | inpData[7];   
+			controller->leftStick.Y = (inpData[8] << 8) | inpData[9]; 
+			
+			controller->rightStick.X = (inpData[10] << 8) | inpData[11];
+			controller->rightStick.Y = (inpData[12] << 8) | inpData[13];
             
         } else {
             // An ignore is used because the xbox controller 'sends' an input update two times for every button press.
             // This way we 'filter' so we only act on it one time.
             ignore = 0;
         }
+        
+        printController(*controller);
     }
 }
