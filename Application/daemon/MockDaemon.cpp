@@ -1,5 +1,5 @@
 #include <iostream>
-#include "GameController.h"
+#include "../GameController.h"
 #include <sys/mman.h>
 #include <fcntl.h> 
 #include <unistd.h>
