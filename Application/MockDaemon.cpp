@@ -1,7 +1,13 @@
 #include <iostream>
 #include "GameController.h"
+#include <sys/mman.h>
+#include <fcntl.h> 
+#include <unistd.h>
 
-struct GameController controller;
+const char* SHM_NAME = "controller";
+
+struct GameController* controller;
+int shm_fd;
 
 void printController(struct GameController c){
 	std::cout << "========" << std::endl;
@@ -26,9 +32,39 @@ void printController(struct GameController c){
 
 int main(){
 	std::cout << "Herro!" << std::endl;
+	controller = new GameController();
 	
-	controller.aButton = true;
-	controller.bButton = true;
+	controller->aButton = true;
+	controller->bButton = true;
 	
-	printController(controller);
+	printController(*controller);
+	
+	
+	// Get shared memory file descriptor.
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
+        std::cout << "cannot open" << std::endl;
+        return -1;
+    }
+    
+    // Set the shared memory size to the size of GameController struct.
+    if (ftruncate(shm_fd, sizeof(GameController)) != 0){
+        std::cout << "cannot set size" << std::endl;
+        return -1;
+    }
+    
+    // Map shared memory in address space.
+    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+        std::cout << "cannot mmap" << std::endl;
+        return -1;
+    }
+    
+    // Lock the shared memory.
+    if (mlock(controller, sizeof(GameController)) != 0){
+        std::cout << "cannot mlock" << std::endl;
+        return -1;
+    }
+    
+    // Shared memory is ready for use.
+    std::cout << "Shared Memory successfully opened.\n" << std::endl;
+
 }
