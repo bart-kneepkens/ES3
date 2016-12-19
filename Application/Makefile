@@ -9,7 +9,7 @@ GPP=g++
 
 .PHONY: cgi
 
-cgi:
+cgi: 
 	$(GPP) -O2 -Wall $(CGI_SOURCE) -o cgi/cgi.cgi -lrt
 	
 mockdaemon:
@@ -19,4 +19,4 @@ daemon:
 	$(ARM-GCC) $(CFLAGS) $(DEAMON_SOURCE) -o daemon/usb-daemon
 
 clean:
-	@rm -rf daemon/usb-daemon cgi/cgi.cgi
+	@rm -rf daemon/usb-daemon cgi/cgi.cgi daemon/mock

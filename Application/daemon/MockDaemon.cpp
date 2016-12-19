@@ -63,6 +63,12 @@ int main(){
     
 	controller->aButton = true;
 	controller->bButton = true;
+	controller->dPad.up = true;
 	
-	printController(*controller);
+	//printController(*controller);
+	
+	while(1){
+		sleep(5);
+		std::cout << ".";
+	}
 }
