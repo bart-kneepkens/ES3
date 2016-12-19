@@ -51,7 +51,7 @@ int main()
     }
     
     // Map shared memory in address space.
-    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_READ, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
         std::cout << "cannot mmap" << std::endl;
         return -1;
     }
