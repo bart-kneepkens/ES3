@@ -12,24 +12,24 @@ struct GameController* controller;
 int shm_fd;
 
 void printController(struct GameController c){
-	std::cout << "========" << std::endl;
-	std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl;
-	std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl;
-	std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl;
-	std::cout << "startButton: " << c.startButton << std::endl;
-	std::cout << "backButton: " << c.backButton << std::endl;
-	std::cout << "leftStickPress: " << c.leftStickPress << std::endl;
-	std::cout << "rightStickPress: " << c.rightStickPress << std::endl;
-	std::cout << "leftBackButton: " << c.leftBackButton << std::endl;
-	std::cout << "rightBackButton: " << c.rightBackButton << std::endl;
-	std::cout << "xboxButton: " << c.xboxButton << std::endl;
-	std::cout << "aButton: " << c.aButton << std::endl;
-	std::cout << "bButton: " << c.bButton << std::endl;
-	std::cout << "xButton: " << c.xButton << std::endl;
-	std::cout << "yButton: " << c.yButton << std::endl;
-	std::cout << "leftTrigger: " << c.leftTrigger << std::endl;
-	std::cout << "rightTrigger: " << c.rightTrigger << std::endl;
-	std::cout << "========" << std::endl;
+	std::cout << "========" << std::endl << "</br>";
+	std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl << "</br>";
+	std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl << "</br>";
+	std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl << "</br>";
+	std::cout << "startButton: " << c.startButton << std::endl << "</br>";
+	std::cout << "backButton: " << c.backButton << std::endl << "</br>";
+	std::cout << "leftStickPress: " << c.leftStickPress << std::endl << "</br>";
+	std::cout << "rightStickPress: " << c.rightStickPress << std::endl << "</br>";
+	std::cout << "leftBackButton: " << c.leftBackButton << std::endl << "</br>";
+	std::cout << "rightBackButton: " << c.rightBackButton << std::endl << "</br>";
+	std::cout << "xboxButton: " << c.xboxButton << std::endl << "</br>";
+	std::cout << "aButton: " << c.aButton << std::endl << "</br>";
+	std::cout << "bButton: " << c.bButton << std::endl << "</br>";
+	std::cout << "xButton: " << c.xButton << std::endl << "</br>";
+	std::cout << "yButton: " << c.yButton << std::endl << "</br>";
+	std::cout << "leftTrigger: " << c.leftTrigger << std::endl << "</br>";
+	std::cout << "rightTrigger: " << c.rightTrigger << std::endl<< "</br>"; 
+	std::cout << "========" << std::endl << "</br>"; 
 }
 
 int main()
