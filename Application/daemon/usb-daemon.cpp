@@ -12,6 +12,8 @@
 #include <iostream>
 #include <sys/mman.h>
 #include <fcntl.h> 
+#include <mqueue.h>
+#include <errno.h>
 
 static libusb_device_handle *h;
 static int error, transferred, printStickOutputs, ignore;
@@ -113,6 +115,34 @@ int main(int argc, char *argv[]) {
         return (1);
     }
     
+    mq_unlink("/commandQueue");
+    
+    struct mq_attr attr;  
+attr.mq_flags = 0;  
+attr.mq_maxmsg = 10;  
+attr.mq_msgsize = 7;  
+attr.mq_curmsgs = 0; 
+    
+    mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
+    std::cout << "Opened MQ with mdq_t: " << m << std::endl;
+    char message[8];
+    
+	int read = mq_receive(m, message, 8, 0);
+		
+	if(read > 0){
+		std::cout << "Received Message:  " << message << std::endl;
+	} 
+	
+	std::cout << read << std::endl;
+	std::cout << std::endl;
+
+	mq_unlink("/commandQueue");
+	exit(0);
+	
+	
+
+		std::cout << read << " : NOT LISTENING ANYMORE" << std::endl;
+    
     while(1) {
         u_int8_t inpData[BUFFERSIZE];
         
@@ -157,5 +187,5 @@ int main(int argc, char *argv[]) {
         }
         
         printController(*controller);
-    }
+   }
 }

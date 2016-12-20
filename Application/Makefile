@@ -1,6 +1,6 @@
 CFLAGS=-O2 -Wall -lusb-1.0
 
-DEAMON_SOURCE=daemon/usb-daemon.c
+DEAMON_SOURCE=daemon/usb-daemon.cpp
 MOCK_DAEMON_SOURCE=daemon/MockDaemon.cpp
 CGI_SOURCE=cgi/cgi.cpp
 

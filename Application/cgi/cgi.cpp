@@ -6,6 +6,7 @@
 #include <fcntl.h> 
 #include <unistd.h>
 #include <string.h>
+#include <mqueue.h>
 
 const char* SHM_NAME = "controller";
 
@@ -76,6 +77,16 @@ int main()
 		std::string command(env+8);
 		
 		std::cout << command << std::endl;
+		
+		mqd_t m = mq_open("/commandQueue", O_RDWR | O_CREAT);
+		
+		std::cout << "Opened MQ with mdq_t: " << m << std::endl;
+		
+		int sent = mq_send(m, "Blabla", 7, 0);
+		
+		std::cout << "Sent: " << sent << std::endl;
+		
+		mq_unlink("/commandQueue");
 	}
 	
 	return 0;
