@@ -78,11 +78,11 @@ int main()
 		
 		std::cout << command << std::endl;
 		
-		mqd_t m = mq_open("/commandQueue", O_RDWR | O_CREAT);
+		mqd_t m = mq_open("/commandQueue", O_RDWR);
 		
 		std::cout << "Opened MQ with mdq_t: " << m << std::endl;
 		
-		int sent = mq_send(m, "Blabla", 7, 0);
+		int sent = mq_send(m, command.c_str(), command.size(), 0);
 		
 		std::cout << "Sent: " << sent << std::endl;
 		
