@@ -5,6 +5,7 @@
 #include <sys/mman.h>
 #include <fcntl.h> 
 #include <unistd.h>
+#include <string.h>
 
 const char* SHM_NAME = "controller";
 
@@ -64,7 +65,18 @@ int main()
     
     // Shared memory is ready for use.
     //std::cout << "Shared Memory successfully opened.\n" << std::endl;
-    printController(*controller);
+    
+    char* env = getenv("QUERY_STRING");
+    
+    if(env == NULL || strlen(env) == 0 || *env == '\0'){
+				printController(*controller);
+	} else {
+		std::cout << getenv("QUERY_STRING") << std::endl << "</br>";
+		
+		std::string command(env+8);
+		
+		std::cout << command << std::endl;
+	}
 	
 	return 0;
 }
