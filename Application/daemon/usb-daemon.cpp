@@ -118,16 +118,14 @@ int main(int argc, char *argv[]) {
     mq_unlink("/commandQueue");
     
     struct mq_attr attr;  
-attr.mq_flags = 0;  
-attr.mq_maxmsg = 10;  
-attr.mq_msgsize = 7;  
-attr.mq_curmsgs = 0; 
+	attr.mq_maxmsg = 1;  
+	attr.mq_msgsize = 1024;  
     
     mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
     std::cout << "Opened MQ with mdq_t: " << m << std::endl;
     char message[8];
     
-	int read = mq_receive(m, message, 8, 0);
+	int read = mq_receive(m, message, 1025, 0);
 		
 	if(read > 0){
 		std::cout << "Received Message:  " << message << std::endl;
