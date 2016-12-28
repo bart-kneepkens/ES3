@@ -1,17 +1,36 @@
-<form action="http://10.0.0.42/cgi-bin/cgi.cgi">
-<div><input type="submit" value="Load Controller state"></div>
+<html>
+	
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+	
+
+<form>
+	<iframe src="http://10.0.0.42/cgi-bin/cgi.cgi" id="controllerStateFrame" style="width:100%;height:50%;"></iframe>
 </form>
 
-<form action="http://10.0.0.42/cgi-bin/cgi.cgi" method="GET">
+<form>
 	<div>
-		<input type="hidden" value="rumble" name="command">
-		<input type="submit" value="Rumble">
+		<button onclick="sendRumble()">Rumble</button>
+		<button onclick="sendRotate()">Rotate LEDs</button>
 	</div>
 </form>
 
-<form action="http://10.0.0.42/cgi-bin/cgi.cgi" method="GET">
-	<div>
-		<input type="hidden" value="rotate" name="command">
-		<input type="submit" value="Rotate LEDs">
-	</div>
-</form>
+<script>
+	setInterval(function(){
+		// Refresh iFrame every second
+		$( '#controllerStateFrame' ).attr( 'src', function ( i, val ) { return val; });
+	}, 1000);
+	
+function sendRumble() {
+    $.get("http://10.0.0.42/cgi-bin/cgi.cgi?command=rumble");
+}
+
+function sendRotate() {
+	$.get("http://10.0.0.42/cgi-bin/cgi.cgi?command=rotate");
+}
+
+</script>
+
+</html>
+
