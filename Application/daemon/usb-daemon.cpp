@@ -62,7 +62,6 @@ static int rotateLeds(bool shouldShow){
 }
 
 int main(int argc, char *argv[]) {
-	
 	// Make this process a daemon
 	daemon(0,0);
 	
@@ -101,24 +100,22 @@ int main(int argc, char *argv[]) {
         return (1);
     }
     
-    // Open the message Queue
     mq_unlink("/commandQueue");
     struct mq_attr attr;  
 	attr.mq_maxmsg = 1;  
 	attr.mq_msgsize = 10;  
     // Open the intial messageQueue
     mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
-    std::cout << "Opened MQ with mdq_t: " << m << std::endl;
+    std::cout << "Opened MQ with mqd_t: " << m << std::endl;
     
     // Start thread for messagequeue reading
-    
     pthread_t threadID;
-	
 	if(pthread_create(&threadID, NULL, readMessageQueueThread, &m) != 0){
             std::cout << "Error creating thread. Exiting. : " << m << std::endl;
             exit(1);
     }
     
+    // Publish the state to the shared memory struct indefinitely
     while(true) {
         u_int8_t inpData[BUFFERSIZE];
         
@@ -153,7 +150,6 @@ int main(int argc, char *argv[]) {
 			
 			controller->rightStick.X = (inpData[10] << 8) | inpData[11];
 			controller->rightStick.Y = (inpData[12] << 8) | inpData[13];
-            
         }
         
         std::cout << "Read the controller!" << std::endl;
@@ -191,7 +187,4 @@ static void * readMessageQueueThread (void * threadArgs)
 		} 
     
 	}
-    
-    pthread_detach(pthread_self());
-    return (NULL);
 }
