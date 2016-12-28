@@ -92,7 +92,7 @@ int main()
 		std::cout << "Sent: " << sent << std::endl;
 		
 		// Release messageQueue
-		mq_unlink("/commandQueue");
+		//mq_unlink("/commandQueue");
 	}
 	
 	return 0;

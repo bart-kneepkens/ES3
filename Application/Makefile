@@ -13,10 +13,10 @@ cgi:
 	$(GPP) -O2 -Wall $(CGI_SOURCE) -o cgi/cgi.cgi -lrt
 	
 mockdaemon:
-	$(GPP) $(MOCK_DAEMON_SOURCE) -o daemon/mock -lrt
+	$(GPP) $(MOCK_DAEMON_SOURCE) -o daemon/mock -lrt -pthread
 
 daemon:
-	$(ARM-GCC) $(CFLAGS) $(DEAMON_SOURCE) -o daemon/usb-daemon -lrt
+	$(ARM-GCC) $(CFLAGS) $(DEAMON_SOURCE) -o daemon/usb-daemon -lrt -pthread
 
 clean:
 	@rm -rf daemon/usb-daemon cgi/cgi.cgi daemon/mock

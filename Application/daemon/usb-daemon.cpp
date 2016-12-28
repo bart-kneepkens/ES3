@@ -23,16 +23,18 @@ const char* SHM_NAME = "controller";
 struct GameController* controller;
 int shm_fd;
 
+static void * readMessageQueueThread (void * arg);
+
 //Gets the bit at the specified index in the specified byte. Its value will be either 0 or 1.
 static int getBitAtIndex(int byte, int index) {
     return byte >> index & 1;
 }
 
 // Turn the xbox's controller rumble on or off, depending on the parameter being 1 or 0 respectively.
-static int rumble(int shouldRumble){
+static int rumble(bool shouldRumble){
     unsigned char data[] = { 0, 8, 0, 0xcc, 0xcc, 0, 0, 0  };
     
-    if(shouldRumble == 0){
+    if(shouldRumble == false){
         data[3] = 0;
         data[4] = 0;
     }
@@ -66,10 +68,10 @@ void printController(struct GameController c){
 }
 
 // Turn the xbox's controller leds on (spinning) or off, depending on the parameter being 1 or 0 respectively.
-static int rotateLeds(int shouldShow){
+static int rotateLeds(bool shouldShow){
     unsigned char data[] = {1,3, 0x0a};
     
-    if(shouldShow == 0) {
+    if(shouldShow == false) {
         data[2] = 0;
     }
     
@@ -108,6 +110,7 @@ int main(int argc, char *argv[]) {
     // Shared memory is ready for use.
     std::cout << "Shared Memory successfully opened.\n" << std::endl;
     
+    // Open the USB controller
     libusb_init(NULL);
     h = libusb_open_device_with_vid_pid(NULL, PRODUCTID, VENDORID);
     if (h == NULL) {
@@ -115,48 +118,25 @@ int main(int argc, char *argv[]) {
         return (1);
     }
     
+    // Open the message Queue
     mq_unlink("/commandQueue");
-    
     struct mq_attr attr;  
 	attr.mq_maxmsg = 1;  
 	attr.mq_msgsize = 10;  
-    
     // Open the intial messageQueue
     mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
     std::cout << "Opened MQ with mdq_t: " << m << std::endl;
     
+    // Start thread for messagequeue reading
     
-    char message[10];
-    
-	int read = mq_receive(m, message, 11, 0);
-		
-	if(read > 0){
-		std::cout << "Received Message:  " << message << std::endl;
-		
-		std::string cppmessage(message);
-		
-		if(cppmessage.find("rumble") != std::string::npos){
-			rumble(true);
-			sleep(3);
-			rumble(false);
-		}
-		
-		if(cppmessage.find("rotate") != std::string::npos){
-			rotateLeds(true);
-			sleep(3);
-			rotateLeds(false);
-		}
-	} 
+    pthread_t threadID;
 	
-	std::cout << read << std::endl;
-	std::cout << std::endl;
-
-	mq_unlink("/commandQueue");
-	exit(0);
-	
-	std::cout << read << " : NOT LISTENING ANYMORE" << std::endl;
+	if(pthread_create(&threadID, NULL, readMessageQueueThread, &m) != 0){
+            std::cout << "Error creating thread. Exiting. : " << m << std::endl;
+            exit(1);
+    }
     
-    while(1) {
+    while(true) {
         u_int8_t inpData[BUFFERSIZE];
         
         if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0) {
@@ -201,4 +181,40 @@ int main(int argc, char *argv[]) {
         
         printController(*controller);
    }
+}
+
+static void * readMessageQueueThread (void * threadArgs)
+{
+    mqd_t * fd_ptr = (mqd_t *) threadArgs;
+    std::cout << "Thread started with clntSock: " <<  *fd_ptr << std::endl;
+    
+    char message[10];
+    
+    while(true){
+    
+		std::cout << "Waiting...." << std::endl;
+		int read = mq_receive(*fd_ptr, message, 11, 0);
+			
+		if(read > 0){
+			std::cout << "Received Message:  " << message << std::endl;
+			
+			std::string cppmessage(message);
+			
+			if(cppmessage.find("rumble") != std::string::npos){
+				rumble(true);
+				sleep(3);
+				rumble(false);
+			}
+			
+			if(cppmessage.find("rotate") != std::string::npos){
+				rotateLeds(true);
+				sleep(3);
+				rotateLeds(false);
+			}
+		} 
+    
+	}
+    
+    pthread_detach(pthread_self());
+    return (NULL);
 }
