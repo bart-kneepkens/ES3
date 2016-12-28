@@ -46,27 +46,6 @@ static int rumble(bool shouldRumble){
     return (0);
 }
 
-void printController(struct GameController c){
-	std::cout << "========" << std::endl;
-	std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl;
-	std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl;
-	std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl;
-	std::cout << "startButton: " << c.startButton << std::endl;
-	std::cout << "backButton: " << c.backButton << std::endl;
-	std::cout << "leftStickPress: " << c.leftStickPress << std::endl;
-	std::cout << "rightStickPress: " << c.rightStickPress << std::endl;
-	std::cout << "leftBackButton: " << c.leftBackButton << std::endl;
-	std::cout << "rightBackButton: " << c.rightBackButton << std::endl;
-	std::cout << "xboxButton: " << c.xboxButton << std::endl;
-	std::cout << "aButton: " << c.aButton << std::endl;
-	std::cout << "bButton: " << c.bButton << std::endl;
-	std::cout << "xButton: " << c.xButton << std::endl;
-	std::cout << "yButton: " << c.yButton << std::endl;
-	std::cout << "leftTrigger: " << c.leftTrigger << std::endl;
-	std::cout << "rightTrigger: " << c.rightTrigger << std::endl;
-	std::cout << "========" << std::endl;
-}
-
 // Turn the xbox's controller leds on (spinning) or off, depending on the parameter being 1 or 0 respectively.
 static int rotateLeds(bool shouldShow){
     unsigned char data[] = {1,3, 0x0a};
@@ -140,9 +119,7 @@ int main(int argc, char *argv[]) {
         u_int8_t inpData[BUFFERSIZE];
         
         if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0) {
-            
-            ignore = 1;
-            
+			
             controller->dPad.up = getBitAtIndex(inpData[2], 0);
             controller->dPad.down = getBitAtIndex(inpData[2], 1);
             controller->dPad.left = getBitAtIndex(inpData[2], 2);
@@ -173,13 +150,9 @@ int main(int argc, char *argv[]) {
 			controller->rightStick.X = (inpData[10] << 8) | inpData[11];
 			controller->rightStick.Y = (inpData[12] << 8) | inpData[13];
             
-        } else {
-            // An ignore is used because the xbox controller 'sends' an input update two times for every button press.
-            // This way we 'filter' so we only act on it one time.
-            ignore = 0;
         }
         
-        printController(*controller);
+        std::cout << "Read the controller!" << std::endl;
    }
 }
 
