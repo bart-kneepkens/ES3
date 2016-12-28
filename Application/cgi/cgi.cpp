@@ -69,23 +69,29 @@ int main()
     
     char* env = getenv("QUERY_STRING");
     
+    // If the parameter is set, not null and not empty
     if(env == NULL || strlen(env) == 0 || *env == '\0'){
 				printController(*controller);
 	} else {
+		
 		std::cout << getenv("QUERY_STRING") << std::endl << "</br>";
 		
+		// Extract the command
 		std::string command(env+8);
 		
 		std::cout << command << std::endl;
 		
+		// Open the messageQueue
 		mqd_t m = mq_open("/commandQueue", O_RDWR);
 		
 		std::cout << "Opened MQ with mdq_t: " << m << std::endl;
 		
+		// Send the command
 		int sent = mq_send(m, command.c_str(), command.size(), 0);
 		
 		std::cout << "Sent: " << sent << std::endl;
 		
+		// Release messageQueue
 		mq_unlink("/commandQueue");
 	}
 	

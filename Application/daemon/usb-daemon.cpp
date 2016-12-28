@@ -119,16 +119,33 @@ int main(int argc, char *argv[]) {
     
     struct mq_attr attr;  
 	attr.mq_maxmsg = 1;  
-	attr.mq_msgsize = 1024;  
+	attr.mq_msgsize = 10;  
     
+    // Open the intial messageQueue
     mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
     std::cout << "Opened MQ with mdq_t: " << m << std::endl;
-    char message[8];
     
-	int read = mq_receive(m, message, 1025, 0);
+    
+    char message[10];
+    
+	int read = mq_receive(m, message, 11, 0);
 		
 	if(read > 0){
 		std::cout << "Received Message:  " << message << std::endl;
+		
+		std::string cppmessage(message);
+		
+		if(cppmessage.find("rumble") != std::string::npos){
+			rumble(true);
+			sleep(3);
+			rumble(false);
+		}
+		
+		if(cppmessage.find("rotate") != std::string::npos){
+			rotateLeds(true);
+			sleep(3);
+			rotateLeds(false);
+		}
 	} 
 	
 	std::cout << read << std::endl;
@@ -137,9 +154,7 @@ int main(int argc, char *argv[]) {
 	mq_unlink("/commandQueue");
 	exit(0);
 	
-	
-
-		std::cout << read << " : NOT LISTENING ANYMORE" << std::endl;
+	std::cout << read << " : NOT LISTENING ANYMORE" << std::endl;
     
     while(1) {
         u_int8_t inpData[BUFFERSIZE];
