@@ -62,6 +62,10 @@ static int rotateLeds(bool shouldShow){
 }
 
 int main(int argc, char *argv[]) {
+	
+	// Make this process a daemon
+	daemon(0,0);
+	
 	// Get shared memory file descriptor.
     if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
         std::cout << "cannot open" << std::endl;
