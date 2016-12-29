@@ -11,7 +11,6 @@
 const char* SHM_NAME = "controller";
 
 void printController(struct GameController c);
-int prepareSharedMemory();
 
 GameController * controller;
 int shm_fd;
