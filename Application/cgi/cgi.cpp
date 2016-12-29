@@ -20,8 +20,28 @@ int main(){
     std::cout << "Content-Type:text/html;charset=iso-8859-11310" << std::endl << std::endl;
     std::cout << "<TITLE>Bart Kneepkens & Martin Donkersloot</TITLE>" << std::endl;
     
-    if(prepareSharedMemory() != 0){
-        return 1;
+    // Get shared memory file descriptor.
+    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
+        std::cout << "cannot open" << std::endl;
+        return -1;
+    }
+    
+    // Set the shared memory size to the size of GameController struct.
+    if (ftruncate(shm_fd, sizeof(GameController)) != 0){
+        std::cout << "cannot set size" << std::endl;
+        return -1;
+    }
+    
+    // Map shared memory in address space.
+    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_READ, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+        std::cout << "cannot mmap" << std::endl;
+        return -1;
+    }
+    
+    // Lock the shared memory.
+    if (mlock(controller, sizeof(GameController)) != 0){
+        std::cout << "cannot mlock" << std::endl;
+        return -1;
     }
     
     // Get the QUERY_STRING variable (from URL) to extract the parameter(s)
@@ -33,6 +53,7 @@ int main(){
     if(env == NULL || strlen(env) == 0 || *env == '\0'){
         
         printController(*controller);
+        
     } else {
         // Extract the command (env is in the format 'command=XXXXXXX'. 'command=' is 8 characters)
         std::string command(env+8);
@@ -69,30 +90,5 @@ void printController(struct GameController c){
 
 // Opens the shared memory.
 int prepareSharedMemory(){
-    // Get shared memory file descriptor.
-    if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
-        std::cout << "cannot open" << std::endl;
-        return -1;
-    }
     
-    // Set the shared memory size to the size of GameController struct.
-    if (ftruncate(shm_fd, sizeof(GameController)) != 0){
-        std::cout << "cannot set size" << std::endl;
-        return -1;
-    }
-    
-    // Map shared memory in address space.
-    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_READ, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
-        std::cout << "cannot mmap" << std::endl;
-        return -1;
-    }
-    
-    // Lock the shared memory.
-    if (mlock(controller, sizeof(GameController)) != 0){
-        std::cout << "cannot mlock" << std::endl;
-        return -1;
-    }
-    
-    // Shared memory is ready for use.
-    return 0;
 }

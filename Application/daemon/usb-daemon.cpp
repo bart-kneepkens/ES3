@@ -13,7 +13,7 @@
 #define ENDPOINT2IN 0x81
 #define ENDPOINT2OUT 0x01
 #define BUFFERSIZE 20
-#define RUMBLETIME 200000
+#define MESSAGESIZE 10
 
 const char* SHM_NAME = "controller";
 
@@ -22,9 +22,7 @@ GameController * controller;
 int error, transferred, shm_fd;
 
 static void * readMessageQueueThread (void * arg);
-int prepareSharedMemory();
-int prepareController();
-void publishControllerState();
+
 bool getBitAtIndex(int byte, int index);
 void rumble(bool shouldRumble);
 void rotateLeds(bool shouldRotate);
@@ -71,7 +69,8 @@ int main(int argc, char *argv[]) {
     mq_unlink("/commandQueue");
     struct mq_attr attr;
     attr.mq_maxmsg = 1;
-    attr.mq_msgsize = 10;
+    attr.mq_msgsize = MESSAGESIZE;
+    
     // Open the intial messageQueue
     mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
     std::cout << "Opened MQ with mqd_t: " << m << std::endl;
@@ -129,10 +128,10 @@ static void * readMessageQueueThread (void * threadArgs){
     // Parse the parameter to the right type.
     mqd_t * fd_ptr = (mqd_t *) threadArgs;
     
-    char message[10];
+    char message[MESSAGESIZE];
     
     while(true){
-		int read = mq_receive(*fd_ptr, message, 11, 0);
+		int read = mq_receive(*fd_ptr, message, MESSAGESIZE + 1, 0);
 			
 		if(read > 0){
 			std::string cppmessage(message);
