@@ -32,7 +32,7 @@ int main(){
     }
     
     // Map shared memory in address space.
-    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_READ, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
+    if ((controller = (struct GameController *)mmap(0, sizeof(GameController), PROT_WRITE, MAP_SHARED, shm_fd, 0)) == MAP_FAILED){
         std::cout << "cannot mmap" << std::endl;
         return -1;
     }
@@ -70,7 +70,7 @@ int main(){
 void printController(struct GameController c){
     std::cout << "Waiting" << std::endl;
     
-    //sem_wait(&(controller->semaphore));
+    sem_wait(&(controller->semaphore));
     std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl << "</br>";
     std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl << "</br>";
     std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl << "</br>";
@@ -87,5 +87,5 @@ void printController(struct GameController c){
     std::cout << "yButton: " << c.yButton << std::endl << "</br>";
     std::cout << "leftTrigger: " << c.leftTrigger << std::endl << "</br>";
     std::cout << "rightTrigger: " << c.rightTrigger << std::endl<< "</br>";
-    //sem_post(&(controller->semaphore));
+    sem_post(&(controller->semaphore));
 }

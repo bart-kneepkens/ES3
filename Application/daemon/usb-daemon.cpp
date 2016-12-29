@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
         
         if(libusb_interrupt_transfer(h, ENDPOINT2IN, inpData, BUFFERSIZE , &transferred, 0) == 0) {
             
-            //sem_wait(&(controller->semaphore));
+            sem_wait(&(controller->semaphore));
             controller->dPad.up = getBitAtIndex(inpData[2], 0);
             controller->dPad.down = getBitAtIndex(inpData[2], 1);
             controller->dPad.left = getBitAtIndex(inpData[2], 2);
@@ -126,7 +126,7 @@ int main(int argc, char *argv[]) {
             controller->rightStick.X = (inpData[10] << 8) | inpData[11];
             controller->rightStick.Y = (inpData[12] << 8) | inpData[13];
             
-            //sem_post(&(controller->semaphore));
+            sem_post(&(controller->semaphore));
         }
         
         std::cout << "Read the controller!" << std::endl;
