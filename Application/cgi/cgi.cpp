@@ -13,7 +13,7 @@ const char* SHM_NAME = "controller";
 void printController(struct GameController c);
 int prepareSharedMemory();
 
-struct GameController* controller;
+GameController * controller;
 int shm_fd;
 
 int main(){
@@ -50,6 +50,7 @@ int main(){
     return 0;
 }
 
+// Print the current state of a gamecontroller to output, in HTML format.
 void printController(struct GameController c){
     std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl << "</br>";
     std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl << "</br>";
@@ -69,6 +70,7 @@ void printController(struct GameController c){
     std::cout << "rightTrigger: " << c.rightTrigger << std::endl<< "</br>";
 }
 
+// Opens the shared memory.
 int prepareSharedMemory(){
     // Get shared memory file descriptor.
     if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
