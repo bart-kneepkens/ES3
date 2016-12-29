@@ -1,5 +1,6 @@
 #include "DPad.h"
 #include "Stick.h"
+#include <semaphore.h>
 
 struct GameController {
 	struct DPad dPad;
@@ -18,4 +19,6 @@ struct GameController {
 	bool yButton;
 	int leftTrigger;
 	int rightTrigger;
+    
+    sem_t semaphore;
 };

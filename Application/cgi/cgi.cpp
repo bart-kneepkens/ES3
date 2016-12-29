@@ -50,7 +50,6 @@ int main(){
     // If the command parameter is null or empty, no command has been set, thus output the controller
     // If it has been set, post it on the MessageQueue
     if(env == NULL || strlen(env) == 0 || *env == '\0'){
-        
         printController(*controller);
         
     } else {
@@ -69,6 +68,9 @@ int main(){
 
 // Print the current state of a gamecontroller to output, in HTML format.
 void printController(struct GameController c){
+    std::cout << "Waiting" << std::endl;
+    
+    //sem_wait(&(controller->semaphore));
     std::cout << "DPad: {" << c.dPad.up << ":" << c.dPad.down << ":" << c.dPad.left << ":" << c.dPad.right << "}" << std::endl << "</br>";
     std::cout << "leftStick: {" << c.leftStick.X << ":" << c.leftStick.Y << "}" << std::endl << "</br>";
     std::cout << "rightStick: {" << c.rightStick.X << ":" << c.rightStick.Y << "}" << std::endl << "</br>";
@@ -85,9 +87,5 @@ void printController(struct GameController c){
     std::cout << "yButton: " << c.yButton << std::endl << "</br>";
     std::cout << "leftTrigger: " << c.leftTrigger << std::endl << "</br>";
     std::cout << "rightTrigger: " << c.rightTrigger << std::endl<< "</br>";
-}
-
-// Opens the shared memory.
-int prepareSharedMemory(){
-    
+    //sem_post(&(controller->semaphore));
 }

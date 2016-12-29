@@ -10,7 +10,7 @@ GPP=arm-linux-g++
 .PHONY: cgi daemon
 
 cgi: 
-	$(GPP) -O2 -Wall $(CGI_SOURCE) -o cgi/cgi.cgi -lrt
+	$(GPP) -O2 -Wall $(CGI_SOURCE) -o cgi/cgi.cgi -lrt -pthread
 	
 mockdaemon:
 	$(GPP) $(MOCK_DAEMON_SOURCE) -o daemon/mock -lrt -pthread
