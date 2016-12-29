@@ -30,8 +30,10 @@ int main(){
    
     // If the command parameter is null or empty, no command has been set, thus output the controller
     // If it has been set, post it on the MessageQueue
-    if(env != NULL || strlen(env) > 0 || *env != '\0'){
+    if(env == NULL || strlen(env) == 0 || *env == '\0'){
         
+        printController(*controller);
+    } else {
         // Extract the command (env is in the format 'command=XXXXXXX'. 'command=' is 8 characters)
         std::string command(env+8);
         
@@ -40,11 +42,6 @@ int main(){
         
         // Place the command on the messageQueue
         mq_send(m, command.c_str(), command.size(), 0);
-        
-    } else {
-        
-        printController(*controller);
-        
     }
     
     return 0;
