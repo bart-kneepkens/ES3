@@ -16,8 +16,7 @@ int prepareSharedMemory();
 struct GameController* controller;
 int shm_fd;
 
-int main()
-{
+int main(){
     std::cout << "Content-Type:text/html;charset=iso-8859-11310" << std::endl << std::endl;
     std::cout << "<TITLE>Bart Kneepkens & Martin Donkersloot</TITLE>" << std::endl;
     
