@@ -17,6 +17,7 @@
 #define MESSAGESIZE 10
 
 const char* SHM_NAME = "controller";
+const char* MQ_NAME = "/commandQueue";
 
 libusb_device_handle * h;
 GameController * controller;
@@ -30,7 +31,7 @@ void rotateLeds(bool shouldRotate);
 
 int main(int argc, char *argv[]) {
     // Make this process a daemon.
-    //daemon(0,0);
+    daemon(0,0);
     
     // Get shared memory file descriptor.
     if ((shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666)) == -1){
@@ -63,8 +64,8 @@ int main(int argc, char *argv[]) {
     libusb_init(NULL);
     h = libusb_open_device_with_vid_pid(NULL, PRODUCTID, VENDORID);
     if (h == NULL) {
-        fprintf(stderr, "Failed to open device\n");
-        return (1);
+        std::cout << "Failed to open device" << std::endl;
+        return -1;
     }
     
     // Initialize semaphore 'semaphore' with value 1.
@@ -73,20 +74,25 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     
-    mq_unlink("/commandQueue");
+    // Unlink to make sure we start fresh
+    mq_unlink(MQ_NAME);
+    
     struct mq_attr attr;
-    attr.mq_maxmsg = 1;
     attr.mq_msgsize = MESSAGESIZE;
+    attr.mq_maxmsg = 1;
     
     // Open the intial messageQueue
-    mqd_t m = mq_open("/commandQueue", O_CREAT | O_RDONLY, 0644, &attr);
-    std::cout << "Opened MQ with mqd_t: " << m << std::endl;
+    mqd_t m = mq_open(MQ_NAME, O_CREAT | O_RDONLY, 0644, &attr);
+    if(m == -1){
+        std::cout << "Cannot open MessageQueue" << std::endl;
+        return -1;
+    }
     
     // Start thread for messagequeue reading
     pthread_t threadID;
     if(pthread_create(&threadID, NULL, readMessageQueueThread, &m) != 0){
         std::cout << "Error creating thread. Exiting. : " << m << std::endl;
-        exit(1);
+        return -1;
     }
     
     // Publish the state to the shared memory struct indefinitely
@@ -130,22 +136,21 @@ int main(int argc, char *argv[]) {
         }
         
         std::cout << "Read the controller!" << std::endl;
-        
-        //sleep(2);
     }
 }
 
-// Thread that will read messages from the MessageQueue and act accordingly/
+// Thread that will read messages from the MessageQueue and act accordingly
 static void * readMessageQueueThread (void * threadArgs){
     // Parse the parameter to the right type.
     mqd_t * fd_ptr = (mqd_t *) threadArgs;
-    
     char message[MESSAGESIZE];
     
     while(true){
+        
 		int read = mq_receive(*fd_ptr, message, MESSAGESIZE + 1, 0);
 			
 		if(read > 0){
+            
 			std::string cppmessage(message);
 			
 			if(cppmessage.find("rumble") != std::string::npos){
@@ -159,12 +164,11 @@ static void * readMessageQueueThread (void * threadArgs){
 				sleep(3);
 				rotateLeds(false);
 			}
-		} 
-    
+		}
 	}
 }
 
-// Gets the bit at the specified index in the specified byte. Its value will be either 0 or 1.
+// Gets the bit at the specified index in the specified byte.
 bool getBitAtIndex(int byte, int index) {
     return byte >> index & 1;
 }

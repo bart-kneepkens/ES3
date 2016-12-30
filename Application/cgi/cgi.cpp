@@ -9,6 +9,7 @@
 #include <mqueue.h>
 
 const char* SHM_NAME = "controller";
+const char* MQ_NAME = "/commandQueue";
 
 void printController(struct GameController c);
 
@@ -57,7 +58,7 @@ int main(){
         std::string command(env+8);
         
         // Open the messageQueue
-        mqd_t m = mq_open("/commandQueue", O_RDWR);
+        mqd_t m = mq_open(MQ_NAME, O_RDWR);
         
         // Place the command on the messageQueue
         mq_send(m, command.c_str(), command.size(), 0);

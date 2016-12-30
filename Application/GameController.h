@@ -22,3 +22,4 @@ struct GameController {
     
     sem_t semaphore;
 };
+
